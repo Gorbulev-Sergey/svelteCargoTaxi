@@ -24,7 +24,7 @@
 			{/each}
 		</div>
 	</div>
-	<div class="flex-grow-1" style="margin-left: {sidbarWidth}; height: 100vh;">
+	<div class="flex-grow-1" style="margin-left: {sidbarWidth};">
 		<slot />
 	</div>
 </div>

@@ -2,6 +2,8 @@
 	import { goto } from '$app/navigation';
 	import PageLayout from '$lib/components/PageLayout.svelte';
 	import { Order } from '$lib/models/Order';
+	import { db } from '$lib/scripts/firebase';
+	import { push, ref } from 'firebase/database';
 
 	let order = new Order();
 	let whenTake = {
@@ -20,9 +22,13 @@
 		<button
 			class="btn btn-dark text-light"
 			on:click={() => {
-				order.whenTake=new Date(`${whenTake.date}T${whenTake.time}Z`);
-				order.whenGive=new Date(`${whenGive.date}T${whenGive.time}Z`);
-				goto('/admin/orders');
+				if (order.product && order.from && order.to) {
+					order.whenTake = `${whenTake.date}T${whenTake.time}Z`;
+					order.whenGive = `${whenGive.date}T${whenGive.time}Z`;
+					push(ref(db, '/orders'), order);
+					order = new Order();
+					goto('/admin/orders');
+				}
 			}}>Сохранить</button>
 	</div>
 

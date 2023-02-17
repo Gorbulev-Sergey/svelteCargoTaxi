@@ -1,0 +1,42 @@
+<script>
+	import { Order } from '$lib/models/Order';
+
+	export let i = '';
+	export let uid = '';
+	export let order = new Order();
+</script>
+
+<div id={uid} class="d-flex align-items-start bg-light text-dark gap-2 p-2 mb-3 rounded">
+	<div class="badge bg-dark bg-opacity-25 text-dark mt-1 p-1">{i}</div>
+	<div class="d-flex flex-column flex-grow-1 me-1">
+		<div class="d-flex justify-content-between w-100">
+			<div>
+				<div><i>товар:</i> {order.product}</div>
+				<div><i>откуда:</i> {order.from}</div>
+				<div><i>куда:</i> {order.to}</div>
+				<div><i>забирать:</i> {new Date(order.whenTake).toLocaleString()}</div>
+				<div><i>привозить:</i> {new Date(order.whenGive).toLocaleString()}</div>
+			</div>
+			<div style="min-width: 11em;">
+				{#if order.length}
+					<div><i>длина:</i> {order.length} м</div>
+				{/if}
+				{#if order.width}
+					<div><i>ширина:</i> {order.width} м</div>
+				{/if}
+				{#if order.height}
+					<div><i>высота:</i> {order.height} м</div>
+				{/if}
+				{#if order.count}
+					<div><i>количество:</i> {order.count}</div>
+				{/if}
+				{#if order.totalWeight}
+					<div><i>общая масса:</i> {order.totalWeight} кг</div>
+				{/if}
+			</div>
+		</div>
+		{#if order.description}
+			<div class="text-primary mt-2 border-top"><i>* {order.description}</i></div>
+		{/if}
+	</div>
+</div>
