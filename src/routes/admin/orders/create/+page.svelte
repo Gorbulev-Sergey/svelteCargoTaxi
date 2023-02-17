@@ -11,13 +11,19 @@
 	let whenGive = {
 		date: new Date().toISOString().slice(0, 10),
 		time: new Date().toTimeString().slice(0, 5)
-	};	
+	};
 </script>
 
 <PageLayout title="Новый заказ">
 	<div slot="nav">
 		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders')}>Отмена</button>
-		<button class="btn btn-dark text-light" on:click={() => goto('/admin/orders')}>Сохранить</button>
+		<button
+			class="btn btn-dark text-light"
+			on:click={() => {
+				order.whenTake=new Date(`${whenTake.date}T${whenTake.time}Z`);
+				order.whenGive=new Date(`${whenGive.date}T${whenGive.time}Z`);
+				goto('/admin/orders');
+			}}>Сохранить</button>
 	</div>
 
 	<div class="row g-3">
