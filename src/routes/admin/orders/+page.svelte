@@ -24,6 +24,13 @@
 	</div>
 
 	{#each Object.entries(orders) as [uid, order], i}
-		<Order i={(i + 1).toString()} {uid} {order} />
+		{#if order.product}
+			<Order i={(i + 1).toString()} {uid} {order}>
+				<div slot="nav">
+					<button class="btn btn-sm btn-light text-dark" on:click={() => goto(`/admin/orders/edit/${uid}`)}
+						><i class="fa-regular fa-pen-to-square" /></button>
+				</div>
+			</Order>
+		{/if}
 	{/each}
 </PageLayout>

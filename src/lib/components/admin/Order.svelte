@@ -11,7 +11,12 @@
 	<div class="d-flex flex-column flex-grow-1 me-1">
 		<div class="d-flex justify-content-between w-100">
 			<div>
-				<div><i>товар:</i> {order.product}</div>
+				<div>
+					<i>товар:</i> <b>{order.product}</b>
+					{#if order.description}
+						<span class="text-primary">*</span>
+					{/if}
+				</div>
 				<div><i>откуда:</i> {order.from}</div>
 				<div><i>куда:</i> {order.to}</div>
 				<div><i>забирать:</i> {new Date(order.whenTake).toLocaleString()}</div>
@@ -39,4 +44,5 @@
 			<div class="text-primary mt-2 border-top"><i>* {order.description}</i></div>
 		{/if}
 	</div>
+	<slot name="nav"/>
 </div>
