@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+
 	let sidbarWidth: string = '14em';
 	let menu: Array<any> = [
-		{ title: 'Заказы', url: '', pin: '150' },
+		{ title: 'Заказы', url: '/admin/orders', pin: '150' },
 		{ title: 'Водители', url: '', pin: '20' },
 		{ title: 'Автомобили', url: '', pin: '12' },
 		{ title: 'Статистика', url: '', pin: '' }
@@ -13,10 +15,10 @@
 		<img class="w-100" src="https://techrocks.ru/wp-content/uploads/2021/03/bootstrap.png" alt="" />
 		<div class="mt-4">
 			{#each menu as item}
-				<button class="btn btn-light text-dark rounded-0 mb-1 text-start w-100">
+				<button class="btn btn-light text-dark rounded-0 mb-1 text-start w-100" on:click={() => goto(item.url)}>
 					<div class="d-flex justify-content-between align-items-end">
 						{item.title}
-						{#if item.pin!=""}
+						{#if item.pin != ''}
 							<div class="badge bg-dark">{item.pin}</div>
 						{/if}
 					</div>

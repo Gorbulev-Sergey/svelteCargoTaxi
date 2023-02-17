@@ -19,8 +19,8 @@
 				</div>
 				<div><i>откуда:</i> {order.from}</div>
 				<div><i>куда:</i> {order.to}</div>
-				<div><i>забирать:</i> {new Date(order.whenTake).toLocaleString()}</div>
-				<div><i>привозить:</i> {new Date(order.whenGive).toLocaleString()}</div>
+				<div><i>забирать:</i> {new Date(order.whenTake).toLocaleString().slice(0,-3)}</div>
+				<div><i>привозить:</i> {new Date(order.whenGive).toLocaleString().slice(0,-3)}</div>
 			</div>
 			<div style="min-width: 11em;">
 				{#if order.length}

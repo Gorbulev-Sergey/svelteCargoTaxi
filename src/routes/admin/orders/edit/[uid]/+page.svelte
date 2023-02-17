@@ -8,19 +8,21 @@
 	import { onMount } from 'svelte';
 
 	let order = new Order();
-	$: whenTake = {
-		date: new Date(order.whenTake).toISOString().slice(0, 10),
-		time: new Date(order.whenTake).toLocaleTimeString()
-	};
-	$: whenGive = {
-		date: order.whenGive.slice(0, 10),
-		time: new Date(order.whenGive).toLocaleTimeString()
-	};
+	$: whenTake = {};
+	$: whenGive = {};
 
 	onMount(() => {
 		onValue(ref(db, `/orders/${$page.params.uid}`), s => {
 			if (s.exists()) {
 				order = s.val();
+				whenTake = {
+					date: order.whenTake.split('T')[0],
+					time: order.whenTake.split('T')[1].slice(0, 5)
+				};
+				whenGive = {
+					date: order.whenGive.split('T')[0],
+					time: order.whenGive.split('T')[1].slice(0, 5)
+				};
 			}
 		});
 	});
@@ -33,8 +35,8 @@
 			class="btn btn-dark text-light"
 			on:click={() => {
 				if (order.product && order.from && order.to) {
-					order.whenTake = `${whenTake.date}T${whenTake.time}Z`;
-					order.whenGive = `${whenGive.date}T${whenGive.time}Z`;
+					order.whenTake = `${whenTake.date}T${whenTake.time}`;
+					order.whenGive = `${whenGive.date}T${whenGive.time}`;
 					set(ref(db, `/orders/${$page.params.uid}`), order);
 					order = new Order();
 					goto('/admin/orders');
