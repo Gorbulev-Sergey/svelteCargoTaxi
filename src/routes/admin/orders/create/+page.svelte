@@ -26,31 +26,32 @@
 				<input class="form-control" bind:value={order.to} />
 			</div>
 			<div class="d-flex flex-wrap justify-content-between mb-1">
-				<div class="d-flex align-items-end mb-1">
+				<div>
                     <div class="me-2">когда забирать:</div>
-					<div class="flex-grow-1 me-1">
-						<div>дата:</div>
-						<input type="date" class="form-control" bind:value={order.whenTake} />
-					</div>
-					<div class="flex-grow-1">
-						<div>время:</div>
-						<input type="time" class="form-control" bind:value={order.whenTake} />
+					<div class="d-flex align-items-end">						
+						<div class="flex-grow-1 me-1">
+							<input type="date" class="form-control" bind:value={order.whenTake} />
+						</div>
+						<div class="flex-grow-1">
+							<input type="time" class="form-control" bind:value={order.whenTake} />
+						</div>
 					</div>
 				</div>
-                <div class="d-flex align-items-end mb-1">
-                    <div class="me-2">когда привозить:</div>
-					<div class="flex-grow-1 me-1">
-						<div>дата:</div>
-						<input type="date" class="form-control" bind:value={order.whenGive} />
-					</div>
-					<div class="flex-grow-1">
-						<div>время:</div>
-						<input type="time" class="form-control" bind:value={order.whenGive} />
+
+				<div>
+                    <div class="me-2">когда доставлять:</div>
+					<div class="d-flex align-items-end">						
+						<div class="flex-grow-1 me-1">
+							<input type="date" class="form-control" bind:value={order.whenGive} />
+						</div>
+						<div class="flex-grow-1">
+							<input type="time" class="form-control" bind:value={order.whenGive} />
+						</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="mb-1">
+			<div class="mt-5">
 				<div>дополнительное описание:</div>
 				<textarea class="form-control" style="min-height: 5em;" bind:value={order.description} />
 			</div>
