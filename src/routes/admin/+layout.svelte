@@ -1,9 +1,9 @@
 <script lang="ts">
-	let sidbarWidth: string = '13em';
+	let sidbarWidth: string = '14em';
 	let menu: Array<any> = [
-		{ title: 'Заказы', url: '', pin: '' },
+		{ title: 'Заказы', url: '', pin: '150' },
 		{ title: 'Водители', url: '', pin: '20' },
-		{ title: 'Автомобили', url: '', pin: '' },
+		{ title: 'Автомобили', url: '', pin: '12' },
 		{ title: 'Статистика', url: '', pin: '' }
 	];
 </script>
