@@ -9,24 +9,24 @@
 	import { db } from '$lib/scripts/firebase';
 	import { onValue, ref, remove } from 'firebase/database';
 	import { onMount } from 'svelte';
+	import { ordersCount } from '$lib/scripts/storage';
 
 	let orders = new Map();
-	let dayCount = '';
 
 	onMount(async () => {
 		onValue(ref(db, '/orders'), s => {
 			if (s.exists()) {
 				orders = s.val();
-				console.log();
+				$ordersCount = Object.keys(orders).length.toString();
 			}
 		});
 	});
 </script>
 
 <PageLayout title="Заказы">
-	<div slot="center">
-		<ButtonSelector titles={['Однодневные', 'Многодневные']} selected="1" />
+	<div class=" text-center" slot="center">
 		<ButtonSelector titles={['Однодневные', 'Многодневные']} />
+		<ButtonSelector titles={['Прошлый месяц', 'Прошлая неделя', 'Вчера', 'Сегодня', 'Завтра', 'Эта неделя', 'Этот месяц']} selected={3} />
 	</div>
 	<div slot="nav">
 		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>

@@ -1,9 +1,10 @@
-<script lang="ts">
+<script>
 	import { goto } from '$app/navigation';
+	import { ordersCount } from '$lib/scripts/storage';
 
-	let sidbarWidth: string = '14em';
-	let menu: Array<any> = [
-		{ title: 'Заказы', url: '/admin/orders', pin: '150' },
+	let sidbarWidth = '14em';
+	$: menu = [
+		{ title: 'Заказы', url: '/admin/orders', pin: $ordersCount },
 		{ title: 'Водители', url: '', pin: '20' },
 		{ title: 'Автомобили', url: '', pin: '12' },
 		{ title: 'Статистика', url: '', pin: '' }
