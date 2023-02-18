@@ -1,4 +1,6 @@
 <script>
+	// @ts-nocheck
+
 	import { goto } from '$app/navigation';
 	import Order from '$lib/components/admin/Order.svelte';
 	import ConfirmDialog from '$lib/components/others/ConfirmDelete.svelte';
@@ -24,20 +26,21 @@
 		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>
 	</div>
 
-	{#each Object.entries(orders) as [uid, order], i}
-		{#if order.product}
-			<Order i={(i + 1).toString()} {uid} {order}>
-				<div class="d-flex gap-1 flex-column" slot="nav">
-					<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
-						<i class="fa-regular fa-pen-to-square" />
-					</button>
-					<ConfirmDialog
-						title="Удалить этот заказ?"
-						onDelete={() => {
-							remove(ref(db, `/orders/${uid}`));
-						}} />
-				</div>
-			</Order>
-		{/if}
+	{#each Object.entries(orders)
+		.filter(v => v[1].product)
+		.sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)) as [uid, order], i}
+
+		<Order i={i+1} {uid} {order}>
+			<div class="d-flex gap-1 flex-column" slot="nav">
+				<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
+					<i class="fa-regular fa-pen-to-square" />
+				</button>
+				<ConfirmDialog
+					title="Удалить этот заказ?"
+					onDelete={() => {
+						remove(ref(db, `/orders/${uid}`));
+					}} />
+			</div>
+		</Order>
 	{/each}
 </PageLayout>
