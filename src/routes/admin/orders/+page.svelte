@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-
+	import ButtonSelector from '$lib/components/others/ButtonSelector.svelte';
 	import { goto } from '$app/navigation';
 	import Order from '$lib/components/admin/Order.svelte';
 	import ConfirmDialog from '$lib/components/others/ConfirmDelete.svelte';
@@ -11,17 +11,23 @@
 	import { onMount } from 'svelte';
 
 	let orders = new Map();
+	let dayCount = '';
 
 	onMount(async () => {
 		onValue(ref(db, '/orders'), s => {
 			if (s.exists()) {
 				orders = s.val();
+				console.log();
 			}
 		});
 	});
 </script>
 
 <PageLayout title="Заказы">
+	<div slot="center">
+		<ButtonSelector titles={['Однодневные', 'Многодневные']} selected="1" />
+		<ButtonSelector titles={['Однодневные', 'Многодневные']} />
+	</div>
 	<div slot="nav">
 		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>
 	</div>
@@ -29,17 +35,12 @@
 	{#each Object.entries(orders)
 		.filter(v => v[1].product)
 		.sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)) as [uid, order], i}
-
-		<Order i={i+1} {uid} {order}>
-			<div class="d-flex gap-1 flex-column" slot="nav">
+		<Order i={Object.keys(orders).length - i} {uid} {order}>
+			<div slot="nav" class="d-flex gap-1 flex-column">
 				<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
 					<i class="fa-regular fa-pen-to-square" />
 				</button>
-				<ConfirmDialog
-					title="Удалить этот заказ?"
-					onDelete={() => {
-						remove(ref(db, `/orders/${uid}`));
-					}} />
+				<ConfirmDialog title="Удалить этот заказ?" onDelete={async () => remove(ref(db, `/orders/${uid}`))} />
 			</div>
 		</Order>
 	{/each}
