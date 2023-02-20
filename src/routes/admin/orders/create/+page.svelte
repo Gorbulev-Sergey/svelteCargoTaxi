@@ -23,8 +23,8 @@
 			class="btn btn-dark text-light"
 			on:click={() => {
 				if (order.product && order.from && order.to) {
-					order.whenTake = `${whenTake.date}T${whenTake.time}Z`;
-					order.whenGive = `${whenGive.date}T${whenGive.time}Z`;
+					order.whenTake = `${whenTake.date}T${whenTake.time}`;
+					order.whenGive = `${whenGive.date}T${whenGive.time}`;
 					push(ref(db, '/orders'), order);
 					order = new Order();
 					goto('/admin/orders');

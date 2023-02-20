@@ -11,7 +11,7 @@
 	import { onMount } from 'svelte';
 	import { ordersCount } from '$lib/scripts/storage';
 
-	$: orders = new Map();
+	let orders = new Map();
 
 	$: selectedOneManyDays = 0;
 	$: ordersOneManyDays = () => {
@@ -36,15 +36,11 @@
 		switch (selectedTakeGive) {
 			case 0:
 				return Object.fromEntries(
-					Object.entries(ordersOneManyDays()).filter(
-						([k, v]) => v.whenTake && new Date(v.whenTake).toDateString() == new Date().toDateString()
-					)
+					Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenTake).toDateString() == new Date().toDateString())
 				);
 			case 1:
 				return Object.fromEntries(
-					Object.entries(ordersOneManyDays()).filter(
-						([k, v]) => v.whenGive && new Date(v.whenGive).toDateString() == new Date().toDateString()
-					)
+					Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenGive).toDateString() != new Date().toDateString())
 				);
 		}
 	};
@@ -59,6 +55,8 @@
 						([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).getMonth() == new Date().getMonth() - 1
 					)
 				);
+			case 1:
+				return ordersTakeGive();
 			case 2:
 				// Вчера
 				return Object.fromEntries(
@@ -75,13 +73,17 @@
 				);
 			case 4:
 				// Завтра
+				console.log(new Date().getDate() + 1);
 				return Object.fromEntries(
 					Object.entries(ordersTakeGive()).filter(
 						([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).getDate() == new Date().getDate() + 1
 					)
 				);
+			case 5:
+				return ordersTakeGive();
 			case 6:
 				// Этот месяц
+				console.log(new Date('2023-02-19T21:42').getMonth() + new Date().getMonth());
 				return Object.fromEntries(
 					Object.entries(ordersTakeGive()).filter(
 						([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).getMonth() == new Date().getMonth()
@@ -94,7 +96,6 @@
 		onValue(ref(db, '/orders'), s => {
 			if (s.exists()) {
 				orders = s.val();
-				console.log(new Date().getMonth());
 				$ordersCount = Object.keys(orders).length.toString();
 			}
 		});
@@ -103,20 +104,11 @@
 
 <PageLayout title="Заказы">
 	<div class=" text-center" slot="center">
-		<ButtonSelector titles={['Однодневные', 'Многодневные']} bind:selected={selectedOneManyDays} onSelected={() => {}} />
+		<ButtonSelector titles={['Однодневные', 'Многодневные']} bind:selected={selectedOneManyDays} />
 		<ButtonSelector titles={['забрать', 'доставить']} bind:selected={selectedTakeGive} />
 		<ButtonSelector
 			titles={['Прошлый месяц', 'Прошлая неделя', 'Вчера', 'Сегодня', 'Завтра', 'Эта неделя', 'Этот месяц']}
-			bind:selected={selectedPrevTodayNext}
-			onSelected={() => {
-				console.log(
-					Object.fromEntries(
-						Object.entries(ordersTakeGive()).filter(
-							([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).getDate() == new Date().getDate()
-						)
-					)
-				);
-			}} />
+			bind:selected={selectedPrevTodayNext} />
 	</div>
 	<div slot="nav">
 		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>
@@ -125,7 +117,7 @@
 	{#each Object.entries(ordersPrevTodayNext())
 		.filter(v => v[1].product)
 		.sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)) as [uid, order], i}
-		<Order i={Object.keys(orders).length - i} {uid} {order}>
+		<Order i={Object.keys(ordersPrevTodayNext()).length - i} {uid} {order}>
 			<div slot="nav" class="d-flex gap-1 flex-column">
 				<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
 					<i class="fa-regular fa-pen-to-square" />
