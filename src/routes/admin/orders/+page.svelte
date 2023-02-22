@@ -13,7 +13,6 @@
 
 	$: orders = new Map();
 	$: selectedDate = new Date();
-	$: ordersFiltered = () => {};
 
 	$: selectedOneManyDays = 0;
 	$: ordersOneManyDays = () => {
@@ -52,6 +51,7 @@
 		switch (selectedPrevTodayNext) {
 			case 0:
 				// Прошлый месяц
+				selectedDate.setMonth(new Date().getMonth() - 1);
 				return Object.fromEntries(
 					Object.entries(ordersTakeGive()).filter(
 						([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).getMonth() == new Date().getMonth() - 1
@@ -61,7 +61,8 @@
 				return ordersOneManyDays();
 			case 2:
 				// Вчера
-				selectedDate.setDate(new Date().getDate()-1);
+				selectedDate.setDate(new Date().getDate() - 1);
+				selectedDate.setMonth(new Date().getMonth());
 				return Object.fromEntries(
 					Object.entries(ordersTakeGive()).filter(
 						([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).getDate() == new Date().getDate() - 1
@@ -70,6 +71,7 @@
 			case 3:
 				// Сегодня
 				selectedDate.setDate(new Date().getDate());
+				selectedDate.setMonth(new Date().getMonth());
 				return Object.fromEntries(
 					Object.entries(ordersTakeGive()).filter(
 						([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).toDateString() == new Date().toDateString()
@@ -77,7 +79,8 @@
 				);
 			case 4:
 				// Завтра
-				selectedDate.setDate(new Date().getDate()+1);
+				selectedDate.setDate(new Date().getDate() + 1);
+				selectedDate.setMonth(new Date().getMonth());
 				return Object.fromEntries(
 					Object.entries(ordersTakeGive()).filter(
 						([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).getDate() == new Date().getDate() + 1
@@ -87,6 +90,7 @@
 				return ordersOneManyDays();
 			case 6:
 				// Этот месяц
+				selectedDate.setMonth(new Date().getMonth());
 				return Object.fromEntries(
 					Object.entries(ordersTakeGive()).filter(
 						([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).getMonth() == new Date().getMonth()
