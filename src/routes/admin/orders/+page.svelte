@@ -11,10 +11,25 @@
 	import { onMount } from 'svelte';
 	import { ordersCount } from '$lib/scripts/storage';
 
-	$: orders = new Map();
-	$: selectedDate = new Date();
+	class SelectedDate {
+		constructor(year = new Date().getFullYear(), month = new Date().getMonth(), day = null) {
+			this.year = year;
+			this.month = month;
+			this.day = day;
+		}
+		toDateString() {
+			let date = new Date(this.year, this.month);
+			if (this.day) date.setDate(this.day);
+			return date.toDateString();
+		}
+	}
 
+	$: orders = new Map();
+
+	let selectedDate = new SelectedDate();
 	$: selectedOneManyDays = 0;
+	$: selectedPrevTodayNext = 3;
+	$: selectedTakeGive = 0;
 	$: ordersOneManyDays = () => {
 		switch (selectedOneManyDays) {
 			case 0:
@@ -32,70 +47,53 @@
 		}
 	};
 
-	$: selectedTakeGive = 0;
-	$: ordersTakeGive = () => {
-		switch (selectedTakeGive) {
-			case 0:
-				return Object.fromEntries(
-					Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenTake).toDateString() == selectedDate.toDateString())
-				);
-			case 1:
-				return Object.fromEntries(
-					Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenGive).toDateString() == selectedDate.toDateString())
-				);
-		}
-	};
-
-	$: selectedPrevTodayNext = 3;
-	$: ordersPrevTodayNext = () => {
+	$: ordersFiltered = () => {
 		switch (selectedPrevTodayNext) {
 			case 0:
 				// Прошлый месяц
-				selectedDate.setMonth(new Date().getMonth() - 1);
-				return Object.fromEntries(
-					Object.entries(ordersTakeGive()).filter(
-						([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).getMonth() == new Date().getMonth() - 1
-					)
-				);
+				selectedDate = new SelectedDate(new Date().getFullYear(), new Date().getMonth() - 1);
 			case 1:
-				return ordersOneManyDays();
+				selectedDate = new SelectedDate(new Date().getFullYear(), new Date().getMonth());
 			case 2:
 				// Вчера
-				selectedDate.setDate(new Date().getDate() - 1);
-				selectedDate.setMonth(new Date().getMonth());
-				return Object.fromEntries(
-					Object.entries(ordersTakeGive()).filter(
-						([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).getDate() == new Date().getDate() - 1
-					)
-				);
+				selectedDate = new SelectedDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1);
 			case 3:
 				// Сегодня
-				selectedDate.setDate(new Date().getDate());
-				selectedDate.setMonth(new Date().getMonth());
-				return Object.fromEntries(
-					Object.entries(ordersTakeGive()).filter(
-						([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).toDateString() == new Date().toDateString()
-					)
-				);
+				selectedDate = new SelectedDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 			case 4:
 				// Завтра
-				selectedDate.setDate(new Date().getDate() + 1);
-				selectedDate.setMonth(new Date().getMonth());
-				return Object.fromEntries(
-					Object.entries(ordersTakeGive()).filter(
-						([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).getDate() == new Date().getDate() + 1
-					)
-				);
+				selectedDate = new SelectedDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1);
 			case 5:
-				return ordersOneManyDays();
+				selectedDate = new SelectedDate();
 			case 6:
 				// Этот месяц
-				selectedDate.setMonth(new Date().getMonth());
-				return Object.fromEntries(
-					Object.entries(ordersTakeGive()).filter(
-						([k, v]) => new Date(selectedTakeGive == 0 ? v.whenTake : v.whenGive).getMonth() == new Date().getMonth()
-					)
-				);
+				selectedDate = new SelectedDate();
+		}
+		switch (selectedTakeGive) {
+			case 0:
+				if (selectedDate.day) {
+					return Object.fromEntries(
+						Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenTake).toDateString() == selectedDate.toDateString())
+					);
+				} else {
+					return Object.fromEntries(
+						Object.entries(ordersOneManyDays()).filter(
+							([k, v]) => new Date(v.whenTake).getFullYear() == selectedDate.year && new Date(v.whenTake).getMonth() == selectedDate.month
+						)
+					);
+				}
+			case 1:
+				if (selectedDate.day) {
+					return Object.fromEntries(
+						Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenGive).toDateString() == selectedDate.toDateString())
+					);
+				} else {
+					return Object.fromEntries(
+						Object.entries(ordersOneManyDays()).filter(
+							([k, v]) => new Date(v.whenGive).getFullYear() == selectedDate.year && new Date(v.whenGive).getMonth() == selectedDate.month
+						)
+					);
+				}
 		}
 	};
 
@@ -110,7 +108,7 @@
 </script>
 
 <PageLayout title="Заказы">
-	<div class=" text-center" slot="center">
+	<div class="text-center" slot="center">
 		<ButtonSelector titles={['Однодневные', 'Многодневные']} bind:selected={selectedOneManyDays} />
 		<ButtonSelector titles={['забрать', 'доставить']} bind:selected={selectedTakeGive} />
 		<ButtonSelector
@@ -121,10 +119,10 @@
 		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>
 	</div>
 
-	{#each Object.entries(ordersPrevTodayNext())
+	{#each Object.entries(ordersFiltered())
 		.filter(v => v[1].product)
 		.sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)) as [uid, order], i}
-		<Order i={Object.keys(ordersPrevTodayNext()).length - i} {uid} {order}>
+		<Order i={Object.keys(ordersFiltered()).length - i} {uid} {order}>
 			<div slot="nav" class="d-flex gap-1 flex-column">
 				<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
 					<i class="fa-regular fa-pen-to-square" />
