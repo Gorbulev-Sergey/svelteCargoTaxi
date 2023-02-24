@@ -17,7 +17,7 @@
 	let selectedDate = new Date();
 
 	$: selectedOneManyDays = 0;
-	$: selectedPrevTodayNext = 1;
+	$: selectedPrevTodayNext = 2;
 	$: selectedTakeGive = 0;
 	$: ordersOneManyDays = () => {
 		switch (selectedOneManyDays) {
@@ -39,26 +39,36 @@
 	$: ordersFiltered = () => {
 		switch (selectedPrevTodayNext) {
 			case 0:
+				// Прошлый месяц
+				selectedDate.setMonth(new Date().getMonth() - 1);
+				hasDate = false;
+				break;
+			case 1:
 				// Вчера
 				selectedDate.setMonth(new Date().getMonth());
 				selectedDate.setDate(new Date().getDate() - 1);
 				hasDate = true;
 				break;
-			case 1:
+			case 2:
 				// Сегодня
 				selectedDate.setMonth(new Date().getMonth());
 				selectedDate.setDate(new Date().getDate());
 				hasDate = true;
 				break;
-			case 2:
+			case 3:
 				// Завтра
 				selectedDate.setMonth(new Date().getMonth());
 				selectedDate.setDate(new Date().getDate() + 1);
 				hasDate = true;
 				break;
-			case 3:
-				// Завтра
-				selectedDate.setMonth(new Date().getMonth() - 1);
+			case 4:
+				// Этот месяц
+				selectedDate.setMonth(new Date().getMonth());
+				hasDate = false;
+				break;
+			case 5:
+				// Следующий месяц
+				selectedDate.setMonth(new Date().getMonth()+1);
 				hasDate = false;
 				break;
 		}
@@ -85,7 +95,7 @@
 							Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenGive).toDateString() == selectedDate.toDateString())
 						);
 					case false:
-					return Object.fromEntries(
+						return Object.fromEntries(
 							Object.entries(ordersOneManyDays()).filter(
 								([k, v]) =>
 									new Date(v.whenGive).getFullYear() == selectedDate.getFullYear() &&
@@ -110,7 +120,7 @@
 	<div class="text-center" slot="center">
 		<ButtonSelector titles={['Однодневные', 'Многодневные']} bind:selected={selectedOneManyDays} />
 		<ButtonSelector titles={['забрать', 'доставить']} bind:selected={selectedTakeGive} />
-		<ButtonSelector titles={['вчера', 'сегодня', 'завтра', 'прошлый месяц']} bind:selected={selectedPrevTodayNext} />
+		<ButtonSelector titles={["прошлый месяц",'вчера', 'сегодня', 'завтра', 'этот месяц',"следующий месяц"]} bind:selected={selectedPrevTodayNext} />
 	</div>
 	<div slot="nav">
 		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>
