@@ -12,7 +12,15 @@
 	import { ordersCount } from '$lib/scripts/storage';
 
 	let orders = new Map();
+	Date.prototype.getWeek = function () {
+		let date = new Date(this.getTime());
+		date.setHours(0, 0, 0, 0);
+		date.setDate(date.getDate() + 3 - ((date.getDay() + 6) % 7));
+		let week1 = new Date(date.getFullYear(), 0, 4);
+		return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7);
+	};
 
+	let hasWeek = false;
 	let hasDate = true;
 	let selectedDate = new Date();
 
@@ -41,39 +49,55 @@
 			case 0:
 				// Прошлый месяц
 				selectedDate.setMonth(new Date().getMonth() - 1);
+				hasWeek = false;
 				hasDate = false;
 				break;
 			case 1:
 				// Вчера
 				selectedDate.setMonth(new Date().getMonth());
 				selectedDate.setDate(new Date().getDate() - 1);
+				hasWeek = false;
 				hasDate = true;
 				break;
 			case 2:
 				// Сегодня
 				selectedDate.setMonth(new Date().getMonth());
 				selectedDate.setDate(new Date().getDate());
+				hasWeek = false;
 				hasDate = true;
 				break;
 			case 3:
 				// Завтра
 				selectedDate.setMonth(new Date().getMonth());
 				selectedDate.setDate(new Date().getDate() + 1);
+				hasWeek = false;
 				hasDate = true;
 				break;
 			case 4:
 				// Этот месяц
 				selectedDate.setMonth(new Date().getMonth());
+				hasWeek = false;
 				hasDate = false;
 				break;
 			case 5:
 				// Следующий месяц
-				selectedDate.setMonth(new Date().getMonth()+1);
+				selectedDate.setMonth(new Date().getMonth() + 1);
+				hasWeek = false;
+				hasDate = false;
+				break;
+			case 6:
+				// Эта неделя
+				hasWeek = true;
 				hasDate = false;
 				break;
 		}
 		switch (selectedTakeGive) {
 			case 0:
+				if (hasWeek) {
+					return Object.fromEntries(
+						Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenTake).getWeek() == new Date().getWeek())
+					);
+				}
 				switch (hasDate) {
 					case true:
 						return Object.fromEntries(
@@ -89,6 +113,11 @@
 						);
 				}
 			case 1:
+				if (hasWeek) {
+					return Object.fromEntries(
+						Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenGive).getWeek() == new Date().getWeek())
+					);
+				}
 				switch (hasDate) {
 					case true:
 						return Object.fromEntries(
@@ -120,7 +149,9 @@
 	<div class="text-center" slot="center">
 		<ButtonSelector titles={['Однодневные', 'Многодневные']} bind:selected={selectedOneManyDays} />
 		<ButtonSelector titles={['забрать', 'доставить']} bind:selected={selectedTakeGive} />
-		<ButtonSelector titles={["прошлый месяц",'вчера', 'сегодня', 'завтра', 'этот месяц',"следующий месяц"]} bind:selected={selectedPrevTodayNext} />
+		<ButtonSelector
+			titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'этот месяц', 'следующий месяц', 'эта неделя']}
+			bind:selected={selectedPrevTodayNext} />
 	</div>
 	<div slot="nav">
 		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>
