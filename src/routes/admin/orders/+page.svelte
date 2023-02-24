@@ -12,7 +12,7 @@
 	import { ordersCount } from '$lib/scripts/storage';
 	import DropdownSelector from '$lib/components/others/DropdownSelector.svelte';
 
-	let orders = new Map();
+	$: orders = new Map();
 	Date.prototype.getWeek = function () {
 		let date = new Date(this.getTime());
 		date.setHours(0, 0, 0, 0);
@@ -28,17 +28,27 @@
 	$: selectedOneManyDays = 0;
 	$: selectedPrevTodayNext = 2;
 	$: selectedTakeGive = 0;
+	$: selectedNewOld = 0;
 	$: ordersOneManyDays = () => {
+		let ordersSorted = Object.assign(orders);
+		switch (selectedNewOld) {
+			case 0:
+				ordersSorted = Object.fromEntries(Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)));
+				break;
+			case 1:
+				ordersSorted = Object.fromEntries(Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v1.created) - new Date(v2.created)));
+				break;
+		}
 		switch (selectedOneManyDays) {
 			case 0:
 				return Object.fromEntries(
-					Object.entries(orders).filter(
+					Object.entries(ordersSorted).filter(
 						([k, v]) => v.whenTake && v.whenGive && new Date(v.whenTake).toDateString() == new Date(v.whenGive).toDateString()
 					)
 				);
 			case 1:
 				return Object.fromEntries(
-					Object.entries(orders).filter(
+					Object.entries(ordersSorted).filter(
 						([k, v]) => v.whenTake && v.whenGive && new Date(v.whenTake).toDateString() != new Date(v.whenGive).toDateString()
 					)
 				);
@@ -147,20 +157,19 @@
 </script>
 
 <PageLayout title="Заказы">
-	<div class="d-flex align-items-center gap-2 text-center" slot="center">
+	<div class="d-flex flex-wrap align-items-center gap-2 text-center px-2" slot="center">
 		<ButtonSelector titles={['Однодневные', 'Многодневные']} bind:selected={selectedOneManyDays} />
 		<ButtonSelector titles={['забрать', 'доставить']} bind:selected={selectedTakeGive} />
 		<DropdownSelector
 			titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
 			bind:selected={selectedPrevTodayNext} />
+		<DropdownSelector titles={['сначала новые', 'сначала старые']} bind:selected={selectedNewOld} />
 	</div>
 	<div slot="nav">
 		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>
 	</div>
 
-	{#each Object.entries(ordersFiltered())
-		.filter(v => v[1].product)
-		.sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)) as [uid, order], i}
+	{#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
 		<Order i={Object.keys(ordersFiltered()).length - i} {uid} {order}>
 			<div slot="nav" class="d-flex gap-1 flex-column">
 				<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
