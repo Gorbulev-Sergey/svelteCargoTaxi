@@ -7,7 +7,9 @@
 </script>
 
 <div class="d-inline-flex align-items-center {_class}">
-	<i class="btn btn-sm border-0" style="cursor:default">{placeholder}{placeholder ? ':' : ''}</i>
+	{#if placeholder.trim() != ''}
+		<i class="btn btn-sm border-0" style="cursor:default">{placeholder}</i>
+	{/if}
 	<div class="btn-group btn-group-sm">
 		{#each titles as title, i}
 			<button

@@ -10,6 +10,7 @@
 	import { onValue, ref, remove } from 'firebase/database';
 	import { onMount } from 'svelte';
 	import { ordersCount } from '$lib/scripts/storage';
+	import DropdownSelector from '$lib/components/others/DropdownSelector.svelte';
 
 	let orders = new Map();
 	Date.prototype.getWeek = function () {
@@ -74,20 +75,20 @@
 				hasDate = true;
 				break;
 			case 4:
+				// Эта неделя
+				hasWeek = true;
+				hasDate = false;
+				break;
+			case 5:
 				// Этот месяц
 				selectedDate.setMonth(new Date().getMonth());
 				hasWeek = false;
 				hasDate = false;
 				break;
-			case 5:
+			case 6:
 				// Следующий месяц
 				selectedDate.setMonth(new Date().getMonth() + 1);
 				hasWeek = false;
-				hasDate = false;
-				break;
-			case 6:
-				// Эта неделя
-				hasWeek = true;
 				hasDate = false;
 				break;
 		}
@@ -146,11 +147,11 @@
 </script>
 
 <PageLayout title="Заказы">
-	<div class="text-center" slot="center">
+	<div class="d-flex align-items-center gap-2 text-center" slot="center">
 		<ButtonSelector titles={['Однодневные', 'Многодневные']} bind:selected={selectedOneManyDays} />
 		<ButtonSelector titles={['забрать', 'доставить']} bind:selected={selectedTakeGive} />
-		<ButtonSelector
-			titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'этот месяц', 'следующий месяц', 'эта неделя']}
+		<DropdownSelector
+			titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
 			bind:selected={selectedPrevTodayNext} />
 	</div>
 	<div slot="nav">
