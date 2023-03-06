@@ -5,8 +5,7 @@
 
 	getToken(messaging, { vapidKey: 'BOchUxTaicGrSG9sbBqcuk-ALTtc45K1dxzdi0-IdrZoZiTkKlKi_2yqv-MrmgofGa5gV0Relu-6GpCaTaiUJ7Q' }).then(
 		currentToken => {
-			if (currentToken) console.log('Всё правильно');
-			else console.log('Ошибка');
+			if (currentToken) console.log(currentToken);
 		}
 	);
 </script>
