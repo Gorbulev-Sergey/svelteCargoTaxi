@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
+import {getMessaging} from 'firebase/messaging'
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyBHEhtO7AtePj-X045LXPL4XS8AC_FDB2Q',
@@ -13,4 +14,5 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export let db = getDatabase();
+export let db = getDatabase(app);
+export let messaging =getMessaging(app);
