@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { sendFCM } from '$lib/scripts/firebaseCloudMessage';
 	import { goto } from '$app/navigation';
 	import PageLayout from '$lib/components/PageLayout.svelte';
 	import { Order } from '$lib/models/Order';
@@ -26,6 +27,15 @@
 					order.whenTake = `${whenTake.date}T${whenTake.time}`;
 					order.whenGive = `${whenGive.date}T${whenGive.time}`;
 					push(ref(db, '/orders'), order);
+					sendFCM(
+						'orders',
+						'Kaluga-Cargo. Новый заказ',
+						`товар: ${order.product},\nоткуда: ${order.from},\nкуда: ${order.to},\nзабрать: ${whenTake.date} в ${
+							whenTake.time
+						},\nдоставить: ${whenGive.date} в ${whenGive.time} ${order.description ? ',\n*' + order.description : ''}`
+					).then(r => {
+						if (r) alert('Сообщение отправлено');
+					});
 					order = new Order();
 					goto('/admin/orders');
 				}
