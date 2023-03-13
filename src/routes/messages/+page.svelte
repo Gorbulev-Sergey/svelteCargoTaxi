@@ -17,14 +17,14 @@
 		title: '',
 		text: ''
 	};
-	let hideAlert = true;
+	$: hideAlert = true;
 </script>
 
 <Alert bind:hide={hideAlert} />
 
 <div class="container my-3">
 	<div class="bg-light p-3 rounded mt-5">
-		<h2 class="mb-3">Сообщения</h2>
+		<h2 class="mb-3">Отправить сообщение</h2>
 		<div class="mb-2">
 			<div class="me-2">Тема:</div>
 			<input class="form-control" bind:value={message.theme} />
@@ -41,7 +41,7 @@
 			class="btn btn-dark text-light"
 			on:click={async () => {
 				console.log(message);
-				if (message.theme != '' || message.title != '' || message.text != '')
+				if (message.theme != '' && message.title != '' && message.text != '')
 					// Очень важный код
 					fetch('https://fcm.googleapis.com/fcm/send', {
 						method: 'POST',
@@ -59,6 +59,7 @@
 						})
 					}).then(s => {
 						hideAlert = false;
+						setInterval(() => (hideAlert = true), 2000);
 						message = {
 							theme: 'orders',
 							title: '',
