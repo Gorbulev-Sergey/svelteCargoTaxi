@@ -16,6 +16,7 @@
 <button
 	class="btn btn-light text-dark mt-5"
 	on:click={async () => {
+		// Очень важный код
 		fetch('https://fcm.googleapis.com/fcm/send', {
 			method: 'POST',
 			headers: {
