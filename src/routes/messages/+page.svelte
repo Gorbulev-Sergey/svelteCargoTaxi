@@ -5,6 +5,7 @@
 	import PageLayout from '$lib/components/PageLayout.svelte';
 	import Alert from '$lib/components/Alert.svelte';
 	import { text } from 'svelte/internal';
+	import { sendFCM } from '$lib/scripts/firebaseCloudMessage';
 
 	// getToken(messaging, { vapidKey: 'BOchUxTaicGrSG9sbBqcuk-ALTtc45K1dxzdi0-IdrZoZiTkKlKi_2yqv-MrmgofGa5gV0Relu-6GpCaTaiUJ7Q' }).then(
 	// 	currentToken => {
