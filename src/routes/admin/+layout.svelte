@@ -13,7 +13,7 @@
 
 <div class="d-flex">
 	<div class="fixed-top bg-light" style="width:{sidbarWidth}; height: 100vh;">
-		<img class="w-100" src="https://techrocks.ru/wp-content/uploads/2021/03/bootstrap.png" alt="" />
+		<img class="w-100" src="https://sun9-68.userapi.com/JMNL26HgHKZeSqtog_oujmPQwE1glD6Njf02_g/mdS7yp5Eq9o.jpg" alt="" />
 		<div class="mt-4">
 			{#each menu as item}
 				<button class="btn btn-light text-dark rounded-0 mb-1 text-start w-100" on:click={() => goto(item.url)}>
