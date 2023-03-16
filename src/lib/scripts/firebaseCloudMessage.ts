@@ -15,7 +15,8 @@ export let sendFCM = (theme: string, title: string, text: string) => {
 				notification: {
 					body: text,
 					title: title
-				}
+				},
+				icon:"favicon.png"
 			})
 		}).then(s => {
 			if (s.ok) res(s.ok);

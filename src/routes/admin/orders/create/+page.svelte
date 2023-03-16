@@ -33,9 +33,7 @@
 						`товар: ${order.product},\nоткуда: ${order.from},\nкуда: ${order.to},\nзабрать: ${whenTake.date} в ${
 							whenTake.time
 						},\nдоставить: ${whenGive.date} в ${whenGive.time} ${order.description ? ',\n*' + order.description : ''}`
-					).then(r => {
-						if (r) alert('Сообщение отправлено');
-					});
+					);
 					order = new Order();
 					goto('/admin/orders');
 				}
