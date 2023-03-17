@@ -7,45 +7,13 @@
 	let code = '';
 
 	onMount(() => {
-		// window.recaptchaVerifier = new RecaptchaVerifier(
-		// 	'recaptcha-container',
-		// 	{
-		// 		size: 'normal',
-		// 		callback: response => {
-		// 			// signInWithPhoneNumber(auth, '+79105163686', response).then(r => {
-		// 			// 	window.confirmationResult = r;
-		// 			// 	console.log(r, response);
-		// 			// });
-		// 		},
-		// 		'expired-callback': () => {
-		// 			// Response expired. Ask user to solve reCAPTCHA again.
-		// 			// ...
-		// 		},
-		// 	},
-		// 	auth,
-		// );
 		window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
 		let appVerifier = window.recaptchaVerifier;
 		signInWithPhoneNumber(auth, '+79105163686', appVerifier)
 			.then(confirmationResult => {
-				// SMS sent. Prompt user to type the code from the message, then sign the
-				// user in with confirmationResult.confirm(code).
+				// Отправлено SMS. Предложите пользователю ввести код из сообщения, затем войдите
+				//в систему с результатом подтверждения.подтвердите (код).
 				window.confirmationResult = confirmationResult;
-				console.log(confirmationResult);
-				if (code.length == 6) {
-					confirmationResult
-						.confirm(code)
-						.then(result => {
-							// User signed in successfully.
-							const user = result.user;
-							console.log(user);
-							// ...
-						})
-						.catch(error => {
-							// User couldn't sign in (bad verification code?)
-							// ...
-						});
-				}
 			})
 			.catch(error => {
 				// Error; SMS not sent
@@ -59,4 +27,18 @@
 	<div id="recaptcha-container" />
 
 	<input class="form-control" bind:value={code} />
+	<button
+		on:click={() => {
+			window.confirmationResult
+				.confirm(code)
+				.then(result => {
+					// User signed in successfully.
+					const user = result.user;
+					console.log(user);
+				})
+				.catch(error => {
+					// User couldn't sign in (bad verification code?)
+					// ...
+				});
+		}}>Войти</button>
 </div>
