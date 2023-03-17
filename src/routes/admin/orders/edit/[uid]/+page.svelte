@@ -1,4 +1,6 @@
 <script>
+	// @ts-nocheck
+
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import PageLayout from '$lib/components/PageLayout.svelte';
@@ -17,11 +19,11 @@
 				order = s.val();
 				whenTake = {
 					date: order.whenTake.split('T')[0],
-					time: order.whenTake.split('T')[1].slice(0, 5)
+					time: order.whenTake.split('T')[1].slice(0, 5),
 				};
 				whenGive = {
 					date: order.whenGive.split('T')[0],
-					time: order.whenGive.split('T')[1].slice(0, 5)
+					time: order.whenGive.split('T')[1].slice(0, 5),
 				};
 			}
 		});
@@ -83,9 +85,18 @@
 						<div class="flex-grow-1 me-1">
 							<input type="date" class="form-control" bind:value={whenGive.date} />
 						</div>
-						<div class="flex-grow-1">
-							<input type="time" class="form-control" bind:value={whenGive.time} />
+						<div class="d-flex align-items-center mb-1">
+							<input class="form-check" type="checkbox" bind:checked={order.hasWhenGiveTime} />
+							<!-- svelte-ignore a11y-click-events-have-key-events -->
+							<div class="mb-1 mx-1" style="cursor: default;" on:click={() => (order.hasWhenGiveTime = !order.hasWhenGiveTime)}>
+								время
+							</div>
 						</div>
+						{#if order.hasWhenGiveTime}
+							<div class="flex-grow-1">
+								<input type="time" class="form-control" bind:value={whenGive.time} />
+							</div>
+						{/if}
 					</div>
 				</div>
 			</div>

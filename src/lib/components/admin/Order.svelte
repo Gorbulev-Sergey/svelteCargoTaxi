@@ -19,8 +19,13 @@
 				</div>
 				<div><i>откуда:</i> {order.from}</div>
 				<div><i>куда:</i> {order.to}</div>
-				<div><i>забрать:</i> {new Date(order.whenTake).toLocaleString().slice(0,-3)}</div>
-				<div><i>доставить:</i> {new Date(order.whenGive).toLocaleString().slice(0,-3)}</div>
+				<div><i>забрать:</i> {new Date(order.whenTake).toLocaleString().slice(0, -3)}</div>
+				<div>
+					<i>доставить:</i>
+					{order.hasWhenGiveTime
+						? new Date(order.whenGive).toLocaleString().slice(0, -3)
+						: new Date(order.whenGive).toLocaleString().slice(0, -10)}
+				</div>
 			</div>
 			<div style="min-width: 11em;">
 				{#if order.length}
@@ -44,5 +49,5 @@
 			<div class="text-primary mt-2 border-top"><i>* {order.description}</i></div>
 		{/if}
 	</div>
-	<slot name="nav"/>
+	<slot name="nav" />
 </div>

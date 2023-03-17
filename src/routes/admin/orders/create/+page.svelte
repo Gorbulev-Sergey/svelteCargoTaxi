@@ -9,11 +9,11 @@
 	let order = new Order();
 	let whenTake = {
 		date: new Date().toISOString().slice(0, 10),
-		time: new Date().toTimeString().slice(0, 5)
+		time: new Date().toTimeString().slice(0, 5),
 	};
 	let whenGive = {
 		date: new Date().toISOString().slice(0, 10),
-		time: new Date().toTimeString().slice(0, 5)
+		time: new Date().toTimeString().slice(0, 5),
 	};
 </script>
 
@@ -32,7 +32,9 @@
 						'Kaluga-Cargo. Новый заказ',
 						`товар: ${order.product},\nоткуда: ${order.from},\nкуда: ${order.to},\nзабрать: ${whenTake.date} в ${
 							whenTake.time
-						},\nдоставить: ${whenGive.date} в ${whenGive.time} ${order.description ? ',\n*' + order.description : ''}`
+						},\nдоставить: ${whenGive.date} ${order.hasWhenGiveTime ? 'в ' + whenGive.time : ''} ${
+							order.description ? ',\n*' + order.description : ''
+						}`,
 					);
 					order = new Order();
 					goto('/admin/orders');
@@ -79,9 +81,18 @@
 						<div class="flex-grow-1 me-1">
 							<input type="date" class="form-control" bind:value={whenGive.date} />
 						</div>
-						<div class="flex-grow-1">
-							<input type="time" class="form-control" bind:value={whenGive.time} />
+						<div class="d-flex align-items-center mb-1">
+							<input class="form-check" type="checkbox" bind:checked={order.hasWhenGiveTime} />
+							<!-- svelte-ignore a11y-click-events-have-key-events -->
+							<div class="mb-1 mx-1" style="cursor: default;" on:click={() => (order.hasWhenGiveTime = !order.hasWhenGiveTime)}>
+								время
+							</div>
 						</div>
+						{#if order.hasWhenGiveTime}
+							<div class="flex-grow-1">
+								<input type="time" class="form-control" bind:value={whenGive.time} />
+							</div>
+						{/if}
 					</div>
 				</div>
 			</div>
