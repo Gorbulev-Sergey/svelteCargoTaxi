@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 import { getMessaging, isSupported } from 'firebase/messaging';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
 	apiKey: 'AIzaSyBHEhtO7AtePj-X045LXPL4XS8AC_FDB2Q',
@@ -15,5 +16,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export let db = getDatabase(app);
+export let auth = getAuth(app);
+auth.languageCode = 'ru';
 export let messaging = isSupported().then(r => getMessaging(app));
 //export let messaging = (await isSupported()) ? getMessaging(app) : null;
