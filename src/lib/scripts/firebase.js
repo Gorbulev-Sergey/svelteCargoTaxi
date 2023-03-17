@@ -15,4 +15,5 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export let db = getDatabase(app);
-export let messaging = (await isSupported()) ? getMessaging(app) : null;
+export let messaging = isSupported().then(r => getMessaging(app));
+//export let messaging = (await isSupported()) ? getMessaging(app) : null;
