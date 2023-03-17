@@ -16,7 +16,6 @@ export let sendFCM = (theme: string, title: string, text: string) => {
 					body: text,
 					title: title,
 				},
-
 				priority: 'high',
 				icon: 'favicon.png',
 			}),
