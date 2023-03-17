@@ -8,16 +8,17 @@ export let sendFCM = (theme: string, title: string, text: string) => {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json; charset=UTF-8',
-				Authorization: authorizationKey
+				Authorization: authorizationKey,
 			},
 			body: JSON.stringify({
 				to: `/topics/${theme}`,
 				notification: {
 					body: text,
-					title: title
+					title: title,
 				},
-				icon:"favicon.png"
-			})
+				priority: 'hi',
+				icon: 'favicon.png',
+			}),
 		}).then(s => {
 			if (s.ok) res(s.ok);
 			else res(!s.ok);
@@ -33,16 +34,16 @@ export let sendFCMData = (theme: string, title: string, text: string, dataMap: M
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json; charset=UTF-8',
-				Authorization: authorizationKey
+				Authorization: authorizationKey,
 			},
 			body: JSON.stringify({
 				to: `/topics/${theme}`,
 				data: {
 					body: text,
 					title: title,
-					dataArray
-				}
-			})
+					dataArray,
+				},
+			}),
 		}).then(s => {
 			if (s.ok) res(s.ok);
 			else res(!s.ok);
@@ -56,14 +57,14 @@ let sendFCM1 = (theme = '', title = '', text = '') => {
 		method: 'POST',
 		headers: {
 			'Content-type': 'application/json; charset=UTF-8',
-			Authorization: authorizationKey
+			Authorization: authorizationKey,
 		},
 		body: JSON.stringify({
 			to: `/topics/${theme}`,
 			notification: {
 				body: text,
-				title: title
-			}
-		})
+				title: title,
+			},
+		}),
 	});
 };
