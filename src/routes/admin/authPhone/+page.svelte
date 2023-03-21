@@ -4,6 +4,7 @@
 	import { auth } from '$lib/scripts/firebase';
 	import { RecaptchaVerifier, signInWithPhoneNumber, updateProfile } from 'firebase/auth';
 
+	let timeResendSMS = 60;
 	let code = '';
 	let userName = '';
 	let phoneNumber = '';
@@ -49,6 +50,13 @@
 				id="sign-in-button"
 				class="btn btn-dark text-light mb-2"
 				on:click={() => {
+					let interval = setInterval(() => {
+						timeResendSMS--;
+					}, 1000);
+					setTimeout(() => {
+						clearInterval(interval);
+						timeResendSMS = 60;
+					}, 5000);
 					// невидимая reCaptcha
 					if (!recaptchaVerifier) {
 						recaptchaVerifier = new RecaptchaVerifier(
@@ -71,7 +79,7 @@
 						.catch(error => {
 							console.log(error);
 						});
-				}}>Получить смс с кодом</button>
+				}}>{timeResendSMS == 60 ? 'Отправить смс с кодом' : `Отправить код через ${timeResendSMS} сек`}</button>
 		{:else}
 			<button id="sign-in-button" class="btn btn-dark text-light mb-2" disabled>Получить смс с кодом</button>
 		{/if}
@@ -95,7 +103,9 @@
 								.confirm(code)
 								.then(result => {
 									const user = result.user;
-									updateProfile(user, { displayName: userName });
+									if (!user.displayName) {
+										updateProfile(user, { displayName: userName });
+									}
 									console.log(user);
 									goto('/');
 								})

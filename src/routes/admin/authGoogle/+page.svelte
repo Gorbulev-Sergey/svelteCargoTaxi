@@ -4,9 +4,8 @@
 	import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 	import { onMount } from 'svelte';
 
-	let provider = new GoogleAuthProvider();
 	onMount(() => {
-		signInWithPopup(auth, provider).then(r => {
+		signInWithPopup(auth, new GoogleAuthProvider()).then(r => {
 			// This gives you a Google Access Token. You can use it to access the Google API.
 			const credential = GoogleAuthProvider.credentialFromResult(r);
 			const token = credential?.accessToken;
