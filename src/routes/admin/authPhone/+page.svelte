@@ -7,6 +7,15 @@
 	let code = '';
 	let userName = '';
 	let phoneNumber = '';
+
+	/**
+	 * @type {import("@firebase/auth").ApplicationVerifier}
+	 */
+	let recaptchaVerifier;
+	/**
+	 * @type {import("@firebase/auth").ConfirmationResult}
+	 */
+	let confirmationResult;
 </script>
 
 <div class="d-flex justify-content-center align-items-center mx-2" style="min-height: 100vh;">
@@ -41,24 +50,23 @@
 				class="btn btn-dark text-light mb-2"
 				on:click={() => {
 					// невидимая reCaptcha
-					if (!window.recaptchaVerifier) {
-						window.recaptchaVerifier = new RecaptchaVerifier(
+					if (!recaptchaVerifier) {
+						recaptchaVerifier = new RecaptchaVerifier(
 							'sign-in-button',
 							{
 								size: 'invisible',
-								callback: response => {
+								callback: (/** @type {any} */ response) => {
 									// reCAPTCHA solved, allow signInWithPhoneNumber.
 								},
 							},
 							auth,
 						);
 					}
-					let appVerifier = window.recaptchaVerifier;
-					signInWithPhoneNumber(auth, `+7${phoneNumber}`, appVerifier)
-						.then(confirmationResult => {
+					signInWithPhoneNumber(auth, `+7${phoneNumber}`, recaptchaVerifier)
+						.then(confResult => {
 							// Отправлено SMS. Предложите пользователю ввести код из сообщения, затем войдите
 							//в систему с результатом подтверждения.подтвердите (код).
-							window.confirmationResult = confirmationResult;
+							confirmationResult = confResult;
 						})
 						.catch(error => {
 							console.log(error);
@@ -83,7 +91,7 @@
 					}}
 					on:input={() => {
 						if (code.length == 6) {
-							window.confirmationResult
+							confirmationResult
 								.confirm(code)
 								.then(result => {
 									const user = result.user;
