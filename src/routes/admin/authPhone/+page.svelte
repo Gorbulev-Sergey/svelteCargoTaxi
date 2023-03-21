@@ -19,10 +19,10 @@
 </script>
 
 <div class="d-flex justify-content-center align-items-center mx-2" style="min-height: 100vh;">
-	<div class="bg-light p-3 rounded text-center">
+	<div class=" p-3 rounded text-center">
 		<div class="mb-3">
 			<h5 class="mb-1">Добро пожаловать в наше приложение!</h5>
-			<small class="text-muted">Введите регистрационные данные.</small>
+			<small class="text-muted">Введите регистрационные данные</small>
 		</div>
 		<input class="form-control mb-2" placeholder="Ваше имя (или логин)" bind:value={userName} />
 		<div class="input-group mb-2">
