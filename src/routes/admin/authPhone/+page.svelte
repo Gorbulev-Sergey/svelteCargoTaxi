@@ -77,7 +77,7 @@
 		{/if}
 
 		<div class="input-group">
-			{#if phoneNumber.length == 10}
+			{#if phoneNumber.length == 10 && confirmationResult}
 				<input
 					type="tel"
 					class="form-control"
@@ -105,7 +105,7 @@
 						}
 					}} />
 			{:else}
-				<input type="tel" class="form-control" maxlength="6" placeholder="Введите полученный код" bind:value={code} disabled />
+				<input type="tel" class="form-control" placeholder="Введите полученный код" disabled />
 			{/if}
 		</div>
 	</div>
