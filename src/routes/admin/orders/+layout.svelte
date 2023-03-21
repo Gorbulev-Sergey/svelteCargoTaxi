@@ -1,7 +1,9 @@
 <script>
 	import { goto } from '$app/navigation';
 	import IsAuth from '$lib/components/IsAuth.svelte';
+	import { auth } from '$lib/scripts/firebase';
 	import { ordersCount } from '$lib/scripts/storage';
+	import { signOut } from 'firebase/auth';
 
 	let sidbarWidth = '14em';
 	$: menu = [
@@ -28,6 +30,7 @@
 					</button>
 				{/each}
 			</div>
+			<button class="btn btn-light text-dark rounded-0 mb-1 text-start w-100" on:click={() => signOut(auth)}>Выйти</button>
 		</div>
 		<div class="flex-grow-1" style="margin-left: {sidbarWidth};">
 			<slot />
