@@ -56,7 +56,7 @@
 					setTimeout(() => {
 						clearInterval(interval);
 						timeResendSMS = 60;
-					}, 5000);
+					}, 60000);
 					// невидимая reCaptcha
 					if (!recaptchaVerifier) {
 						recaptchaVerifier = new RecaptchaVerifier(
