@@ -1,39 +1,12 @@
 <script>
 	// @ts-nocheck
+	import { goto } from '$app/navigation';
 	import { auth } from '$lib/scripts/firebase';
-	import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-	import { onMount } from 'svelte';
+	import { RecaptchaVerifier, signInWithPhoneNumber, updateProfile } from 'firebase/auth';
 
 	let code = '';
 	let userName = '';
 	let phoneNumber = '';
-	let showButton = false;
-
-	onMount(() => {
-		// // невидимая reCaptcha
-		// window.recaptchaVerifier = new RecaptchaVerifier(
-		// 	'sign-in-button',
-		// 	{
-		// 		size: 'invisible',
-		// 		callback: response => {
-		// 			// reCAPTCHA solved, allow signInWithPhoneNumber.
-		// 		},
-		// 	},
-		// 	auth,
-		// );
-		// let appVerifier = window.recaptchaVerifier;
-		// signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-		// .then(confirmationResult => {
-		// 	// Отправлено SMS. Предложите пользователю ввести код из сообщения, затем войдите
-		// 	//в систему с результатом подтверждения.подтвердите (код).
-		// 	window.confirmationResult = confirmationResult;
-		// })
-		// .catch(error => {
-		// 	// Error; SMS not sent
-		// 	// ...
-		// 	console.log(error);
-		// });
-	});
 </script>
 
 <div class="d-flex justify-content-center align-items-center mx-2" style="min-height: 100vh;">
@@ -68,16 +41,18 @@
 				class="btn btn-dark text-light mb-2"
 				on:click={() => {
 					// невидимая reCaptcha
-					window.recaptchaVerifier = new RecaptchaVerifier(
-						'sign-in-button',
-						{
-							size: 'invisible',
-							callback: response => {
-								// reCAPTCHA solved, allow signInWithPhoneNumber.
+					if (!window.recaptchaVerifier) {
+						window.recaptchaVerifier = new RecaptchaVerifier(
+							'sign-in-button',
+							{
+								size: 'invisible',
+								callback: response => {
+									// reCAPTCHA solved, allow signInWithPhoneNumber.
+								},
 							},
-						},
-						auth,
-					);
+							auth,
+						);
+					}
 					let appVerifier = window.recaptchaVerifier;
 					signInWithPhoneNumber(auth, `+7${phoneNumber}`, appVerifier)
 						.then(confirmationResult => {
@@ -86,7 +61,6 @@
 							window.confirmationResult = confirmationResult;
 						})
 						.catch(error => {
-							// Error; SMS not sent
 							console.log(error);
 						});
 				}}>Получить смс с кодом</button>
@@ -105,6 +79,21 @@
 					on:keypress={e => {
 						if (isNaN(e.key)) {
 							e.preventDefault();
+						}
+					}}
+					on:input={() => {
+						if (code.length == 6) {
+							window.confirmationResult
+								.confirm(code)
+								.then(result => {
+									const user = result.user;
+									updateProfile(user, { displayName: userName });
+									console.log(user);
+									goto('/');
+								})
+								.catch(error => {
+									console.log(error);
+								});
 						}
 					}} />
 			{:else}

@@ -3,6 +3,7 @@
 	import IsAuth from '$lib/components/IsAuth.svelte';
 	import { auth } from '$lib/scripts/firebase';
 	import { ordersCount } from '$lib/scripts/storage';
+	import { signOut } from 'firebase/auth';
 
 	let sidbarWidth = '14em';
 	$: menu = [
