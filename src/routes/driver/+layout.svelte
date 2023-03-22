@@ -3,7 +3,7 @@
 	import Auth from '$lib/components/Auth.svelte';
 </script>
 
-<Auth signInUrl="/driver/authPhone">
+<Auth signInUrl="/admin/authPhone">
 	<div class="position-sticky sticky-top">
 		<div class="btn-group w-100 rounded-0">
 			<button class="btn btn-light text-dark w-100 rounded-0 active" on:click={() => goto('/driver/orders')}>
