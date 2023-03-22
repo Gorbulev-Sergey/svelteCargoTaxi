@@ -18,7 +18,7 @@
 </script>
 
 <div class="position-sticky sticky-top px-3 py-2 mb-3 bg-light">
-	<div class="d-flex gap-1">
+	<div class="d-flex flex-wrap gap-1">
 		<ButtonSelector titles={['Однодневные', 'Многодневные']} />
 		<ButtonSelector
 			titles={['Сначала новые', 'Сначала старые']}
@@ -39,7 +39,7 @@
 	</div>
 </div>
 
-<div class="container-fluid" style="min-height: 100vh; margin-bottom:4.5em">
+<div class="container-fluid" style="margin-bottom:4.5em">
 	{#each Object.entries(orders) as [uid, order], i}
 		<Order i={(i + 1).toString()} {uid} {order} />
 	{/each}
