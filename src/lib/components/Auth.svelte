@@ -1,11 +1,10 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { auth } from '$lib/scripts/firebase';
-	import { signOut } from 'firebase/auth';
 	import { onMount } from 'svelte';
 
+	export let signInUrl = '/admin/authPhone';
 	let isSignIn = false;
-	export let loginUrl = '/admin/authPhone';
 
 	onMount(async () => {
 		auth.onAuthStateChanged(auth => {
@@ -13,7 +12,7 @@
 				isSignIn = true;
 			} else {
 				isSignIn = false;
-				goto(loginUrl);
+				goto(signInUrl);
 			}
 		});
 	});

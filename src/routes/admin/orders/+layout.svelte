@@ -1,6 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import IsAuth from '$lib/components/IsAuth.svelte';
+	import Auth from '$lib/components/Auth.svelte';
 	import { auth } from '$lib/scripts/firebase';
 	import { ordersCount } from '$lib/scripts/storage';
 	import { signOut } from 'firebase/auth';
@@ -14,7 +14,7 @@
 	];
 </script>
 
-<IsAuth>
+<Auth>
 	<div class="d-flex">
 		<div class="fixed-top bg-light" style="width:{sidbarWidth}; height: 100vh;">
 			<img class="w-100" src="https://sun9-68.userapi.com/JMNL26HgHKZeSqtog_oujmPQwE1glD6Njf02_g/mdS7yp5Eq9o.jpg" alt="" />
@@ -36,4 +36,4 @@
 			<slot />
 		</div>
 	</div>
-</IsAuth>
+</Auth>

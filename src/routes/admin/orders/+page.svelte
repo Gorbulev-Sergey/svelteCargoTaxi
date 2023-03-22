@@ -33,24 +33,28 @@
 		let ordersSorted = Object.assign(orders);
 		switch (selectedNewOld) {
 			case 0:
-				ordersSorted = Object.fromEntries(Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)));
+				ordersSorted = Object.fromEntries(
+					Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)),
+				);
 				break;
 			case 1:
-				ordersSorted = Object.fromEntries(Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v1.created) - new Date(v2.created)));
+				ordersSorted = Object.fromEntries(
+					Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v1.created) - new Date(v2.created)),
+				);
 				break;
 		}
 		switch (selectedOneManyDays) {
 			case 0:
 				return Object.fromEntries(
 					Object.entries(ordersSorted).filter(
-						([k, v]) => v.whenTake && v.whenGive && new Date(v.whenTake).toDateString() == new Date(v.whenGive).toDateString()
-					)
+						([k, v]) => v.whenTake && v.whenGive && new Date(v.whenTake).toDateString() == new Date(v.whenGive).toDateString(),
+					),
 				);
 			case 1:
 				return Object.fromEntries(
 					Object.entries(ordersSorted).filter(
-						([k, v]) => v.whenTake && v.whenGive && new Date(v.whenTake).toDateString() != new Date(v.whenGive).toDateString()
-					)
+						([k, v]) => v.whenTake && v.whenGive && new Date(v.whenTake).toDateString() != new Date(v.whenGive).toDateString(),
+					),
 				);
 		}
 	};
@@ -106,41 +110,45 @@
 			case 0:
 				if (hasWeek) {
 					return Object.fromEntries(
-						Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenTake).getWeek() == new Date().getWeek())
+						Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenTake).getWeek() == new Date().getWeek()),
 					);
 				}
 				switch (hasDate) {
 					case true:
 						return Object.fromEntries(
-							Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenTake).toDateString() == selectedDate.toDateString())
+							Object.entries(ordersOneManyDays()).filter(
+								([k, v]) => new Date(v.whenTake).toDateString() == selectedDate.toDateString(),
+							),
 						);
 					case false:
 						return Object.fromEntries(
 							Object.entries(ordersOneManyDays()).filter(
 								([k, v]) =>
 									new Date(v.whenTake).getFullYear() == selectedDate.getFullYear() &&
-									new Date(v.whenTake).getMonth() == selectedDate.getMonth()
-							)
+									new Date(v.whenTake).getMonth() == selectedDate.getMonth(),
+							),
 						);
 				}
 			case 1:
 				if (hasWeek) {
 					return Object.fromEntries(
-						Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenGive).getWeek() == new Date().getWeek())
+						Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenGive).getWeek() == new Date().getWeek()),
 					);
 				}
 				switch (hasDate) {
 					case true:
 						return Object.fromEntries(
-							Object.entries(ordersOneManyDays()).filter(([k, v]) => new Date(v.whenGive).toDateString() == selectedDate.toDateString())
+							Object.entries(ordersOneManyDays()).filter(
+								([k, v]) => new Date(v.whenGive).toDateString() == selectedDate.toDateString(),
+							),
 						);
 					case false:
 						return Object.fromEntries(
 							Object.entries(ordersOneManyDays()).filter(
 								([k, v]) =>
 									new Date(v.whenGive).getFullYear() == selectedDate.getFullYear() &&
-									new Date(v.whenGive).getMonth() == selectedDate.getMonth()
-							)
+									new Date(v.whenGive).getMonth() == selectedDate.getMonth(),
+							),
 						);
 				}
 		}

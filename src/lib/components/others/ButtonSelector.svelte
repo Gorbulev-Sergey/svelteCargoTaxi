@@ -3,7 +3,7 @@
 	export let titles = new Array();
 	export let selected = 0;
 	export let _class = '';
-	export let onSelected = () => {};
+	export let onSelected = (/** @type {number} */ selected) => {};
 </script>
 
 <div class="d-inline-flex align-items-center {_class}">
@@ -16,7 +16,7 @@
 				class="btn btn-{i == selected ? 'dark' : 'light'}"
 				on:click={() => {
 					selected = i;
-					onSelected();
+					onSelected(selected);
 				}}>{title}</button>
 		{/each}
 	</div>
