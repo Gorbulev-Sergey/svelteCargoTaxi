@@ -17,13 +17,13 @@
 	});
 </script>
 
-<div style="min-height: 100vh;">
+<div style="min-height: 100vh; margin-bottom:4.5em">
 	{#each Object.entries(orders) as [uid, order], i}
 		<Order i={(i + 1).toString()} {uid} {order} />
 	{/each}
 </div>
 
-<div class="position-sticky sticky-bottom px-3 py-2 bg-light">
+<div class="position-fixed fixed-bottom w-100 px-3 py-2 bg-light">
 	<div class="d-flex gap-1">
 		<ButtonSelector titles={['Однодневные', 'Многодневные']} />
 		<ButtonSelector

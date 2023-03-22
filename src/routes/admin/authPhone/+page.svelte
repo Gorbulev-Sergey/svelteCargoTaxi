@@ -8,6 +8,7 @@
 	let code = '';
 	let userName = '';
 	let phoneNumber = '';
+	export let returnUrl = '/';
 
 	/**
 	 * @type {import("@firebase/auth").ApplicationVerifier}
@@ -107,7 +108,7 @@
 										updateProfile(user, { displayName: userName });
 									}
 									console.log(user);
-									goto('/');
+									goto(returnUrl);
 								})
 								.catch(error => {
 									console.log(error);
