@@ -1,9 +1,20 @@
 <script>
 	import { page } from '$app/stores';
 	import { Order } from '$lib/models/Order';
+	import { db } from '$lib/scripts/firebase';
 	import { orderSelected } from '$lib/scripts/storage';
+	import { onValue, ref } from 'firebase/database';
+	import { onMount } from 'svelte';
 
 	export let order = $orderSelected;
+
+	onMount(async () => {
+		if (!order.product) {
+			onValue(ref(db, '/orders/' + $page.params.uid), r => {
+				if (r.exists()) order = r.val();
+			});
+		}
+	});
 </script>
 
 <div id={$page.params.uid} class="d-flex align-items-start bg-light text-dark gap-2 p-2 m-2 rounded">
