@@ -1,11 +1,12 @@
 <script>
 	// @ts-nocheck
-
 	import Order from '$lib/components/admin/Order.svelte';
 	import { db } from '$lib/scripts/firebase';
 	import { onValue, ref } from 'firebase/database';
 	import { onMount } from 'svelte';
 	import ButtonSelector from '$lib/components/others/ButtonSelector.svelte';
+	import { goto } from '$app/navigation';
+	import { orderSelected } from '$lib/scripts/storage';
 
 	let orders = new Object();
 	onMount(async () => {
@@ -41,6 +42,13 @@
 
 <div class="container-fluid" style="margin-bottom:4.5em">
 	{#each Object.entries(orders) as [uid, order], i}
-		<Order i={(i + 1).toString()} {uid} {order} />
+		<Order
+			i={(i + 1).toString()}
+			{uid}
+			{order}
+			on:click={() => {
+				$orderSelected = order;
+				goto(`/driver/orders/${uid}`);
+			}} />
 	{/each}
 </div>
