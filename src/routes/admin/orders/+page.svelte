@@ -11,6 +11,7 @@
 	import { onMount } from 'svelte';
 	import { driversCount, ordersCount } from '$lib/scripts/storage';
 	import DropdownSelector from '$lib/components/others/DropdownSelector.svelte';
+	import ButtonToggle from '$lib/components/others/ButtonToggle.svelte';
 
 	$: orders = new Object();
 	$: drivers = new Object();
@@ -29,16 +30,16 @@
 	$: selectedOneManyDays = 0;
 	$: selectedPrevTodayNext = 2;
 	$: selectedTakeGive = 0;
-	$: selectedNewOld = 0;
+	$: selectedNewOld = false;
 	$: ordersOneManyDays = () => {
 		let ordersSorted = Object.assign(orders);
 		switch (selectedNewOld) {
-			case 0:
+			case false:
 				ordersSorted = Object.fromEntries(
 					Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)),
 				);
 				break;
-			case 1:
+			case true:
 				ordersSorted = Object.fromEntries(
 					Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v1.created) - new Date(v2.created)),
 				);
@@ -178,7 +179,7 @@
 		<DropdownSelector
 			titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
 			bind:selected={selectedPrevTodayNext} />
-		<DropdownSelector titles={['сначала новые', 'сначала старые']} bind:selected={selectedNewOld} />
+		<ButtonToggle titles={['сначала новые', 'сначала старые']} bind:selected={selectedNewOld} />
 	</div>
 	<div slot="nav">
 		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>

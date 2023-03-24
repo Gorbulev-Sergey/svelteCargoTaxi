@@ -9,7 +9,7 @@
 	];
 </script>
 
-<Auth returnToUrl="/driver/orders">
+<Auth returnUrl="/driver/orders">
 	<slot />
 	<div class="position-fixed fixed-bottom bottom-0 start-0 w-100">
 		<div class="btn-group w-100 rounded-0">

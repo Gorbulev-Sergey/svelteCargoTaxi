@@ -38,7 +38,6 @@
 						}`,
 						uid,
 					);
-					order = new Order();
 					goto('/admin/orders');
 				}
 			}}>Сохранить</button>
