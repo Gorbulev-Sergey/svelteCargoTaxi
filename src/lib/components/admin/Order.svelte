@@ -8,8 +8,20 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div id={uid} class="d-flex align-items-start bg-light text-dark gap-2 p-2 mb-3 rounded {_class}" on:click>
-	<div class="badge bg-dark bg-opacity-25 text-dark mt-1 p-1">{i}</div>
+<div id={uid} class="d-flex bg-light text-dark gap-2 p-2 mb-3 rounded {_class}" on:click>
+	<div class="d-flex flex-column justify-content-between align-items-center">
+		<div class="badge bg-dark bg-opacity-25 text-dark mt-1 p-1">{i}</div>
+		{#if order.status}
+			<div
+				class:bg-dark={order.status == 'взят'}
+				class:bg-info={order.status == 'едет'}
+				class:bg-success={order.status == 'завершён'}
+				class="badge text-light p-1 my-2 flex-grow-1"
+				style="writing-mode: vertical-rl; transform: rotate(180deg);">
+				{order.status}
+			</div>
+		{/if}
+	</div>
 	<div class="d-flex flex-column flex-grow-1 me-1">
 		<div class="d-flex justify-content-between w-100">
 			<div>

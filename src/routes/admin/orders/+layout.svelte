@@ -4,7 +4,6 @@
 	import { auth } from '$lib/scripts/firebase';
 	import { driversCount, ordersCount, returnUrl } from '$lib/scripts/storage';
 	import { signOut } from 'firebase/auth';
-	import { onMount } from 'svelte';
 
 	let sidbarWidth = '14em';
 	$: menu = [

@@ -1,7 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { auth } from '$lib/scripts/firebase';
-	import { returnUrl as returnToUrl } from '$lib/scripts/storage';
+	import { returnUrl as returnToUrl, user } from '$lib/scripts/storage';
 	import { onMount } from 'svelte';
 
 	export let returnUrl = '/';
@@ -12,6 +12,7 @@
 			$returnToUrl = returnUrl;
 			if (auth) {
 				isSignIn = true;
+				$user = auth;
 			} else {
 				isSignIn = false;
 				goto('/others/auth/authPhone');

@@ -9,8 +9,21 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div id={uid} class="d-flex align-items-start bg-light text-dark gap-2 p-2 mb-3 rounded {_class}" style={_style} on:click>
-	<div class="badge bg-dark bg-opacity-25 text-dark mt-1 p-1">{i}</div>
+<div id={uid} class="d-flex bg-light text-dark gap-2 p-2 mb-3 rounded {_class}" style={_style} on:click>
+	<div class="d-flex flex-column justify-content-between align-items-center">
+		<div class="badge bg-dark bg-opacity-25 text-dark mt-1 p-1">{i}</div>
+		{#if order.status}
+			<div
+				class:bg-dark={order.status == 'взят'}
+				class:bg-info={order.status == 'едет'}
+				class:bg-success={order.status == 'завершён'}
+				class="badge text-light p-1 my-2 flex-grow-1"
+				style="writing-mode: vertical-rl; transform: rotate(180deg);">
+				{order.status}
+			</div>
+		{/if}
+	</div>
+
 	<div class="flex-grow-1 me-1">
 		<div class="w-100">
 			<div>
@@ -54,6 +67,11 @@
 		{#if order.description}
 			<div class="text-primary mt-2 pt-1 border-top"><i>* {order.description}</i></div>
 		{/if}
+
+		<div class="mt-2">
+			<slot />
+		</div>
 	</div>
+
 	<slot name="nav" />
 </div>
