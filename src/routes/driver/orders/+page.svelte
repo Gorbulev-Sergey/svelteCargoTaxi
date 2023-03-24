@@ -8,6 +8,7 @@
 	import { goto } from '$app/navigation';
 	import { orderSelected } from '$lib/scripts/storage';
 	import PageTitle from '$lib/components/driver/PageTitle.svelte';
+	import ButtonToggle from '$lib/components/others/ButtonToggle.svelte';
 
 	let orders = new Object();
 	onMount(async () => {
@@ -21,17 +22,17 @@
 
 <PageTitle>
 	<div class="d-flex flex-wrap gap-1">
-		<ButtonSelector titles={['Однодневные', 'Многодневные']} />
-		<ButtonSelector
+		<ButtonToggle titles={['Однодневные', 'Многодневные']} />
+		<ButtonToggle
 			titles={['Сначала новые', 'Сначала старые']}
 			onSelected={t => {
 				switch (t) {
-					case 0:
+					case true:
 						orders = Object.fromEntries(
 							Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)),
 						);
 						break;
-					case 1:
+					case false:
 						orders = Object.fromEntries(
 							Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v1.created) - new Date(v2.created)),
 						);
