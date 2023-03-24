@@ -4,15 +4,18 @@
 	import { returnUrl } from '$lib/scripts/storage';
 	import { onMount } from 'svelte';
 
+	export let returnToUrl = $returnUrl;
 	let isSignIn = false;
 
 	onMount(async () => {
 		auth.onAuthStateChanged(auth => {
+			$returnUrl = returnToUrl;
 			if (auth) {
 				isSignIn = true;
+				goto($returnUrl);
 			} else {
 				isSignIn = false;
-				goto($returnUrl);
+				goto('/admin/authPhone');
 			}
 		});
 	});

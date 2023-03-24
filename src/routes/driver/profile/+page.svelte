@@ -19,7 +19,7 @@
 
 <PageTitle>Мой профиль</PageTitle>
 
-<Auth>
+<Auth returnToUrl="/driver/profile">
 	<div class="rounded mx-3">
 		{#if user.photoURL}
 			<img class="w-25" src={user.photoURL} alt="" />

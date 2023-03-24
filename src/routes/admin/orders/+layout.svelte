@@ -4,6 +4,7 @@
 	import { auth } from '$lib/scripts/firebase';
 	import { driversCount, ordersCount, returnUrl } from '$lib/scripts/storage';
 	import { signOut } from 'firebase/auth';
+	import { onMount } from 'svelte';
 
 	let sidbarWidth = '14em';
 	$: menu = [
@@ -12,10 +13,9 @@
 		{ title: 'Автомобили', url: '', pin: '12' },
 		{ title: 'Статистика', url: '', pin: '' },
 	];
-	$returnUrl = '/admin/orders';
 </script>
 
-<Auth>
+<Auth returnToUrl="/admin/orders">
 	<div class="d-flex">
 		<div class="fixed-top bg-light" style="width:{sidbarWidth}; height: 100vh;">
 			<img class="w-100" src="https://sun9-68.userapi.com/JMNL26HgHKZeSqtog_oujmPQwE1glD6Njf02_g/mdS7yp5Eq9o.jpg" alt="" />
