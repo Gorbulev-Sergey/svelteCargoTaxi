@@ -1,9 +1,9 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { auth } from '$lib/scripts/firebase';
+	import { returnUrl } from '$lib/scripts/storage';
 	import { onMount } from 'svelte';
 
-	export let signInUrl = '/admin/authPhone';
 	let isSignIn = false;
 
 	onMount(async () => {
@@ -12,7 +12,7 @@
 				isSignIn = true;
 			} else {
 				isSignIn = false;
-				goto(signInUrl);
+				goto($returnUrl);
 			}
 		});
 	});

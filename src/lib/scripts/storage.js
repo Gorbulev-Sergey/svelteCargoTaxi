@@ -7,3 +7,6 @@ export let driversCount = writable('0');
 
 // Выбранный заказ
 export let orderSelected = writable(new Order());
+
+// Url для возврата
+export let returnUrl = writable('/');

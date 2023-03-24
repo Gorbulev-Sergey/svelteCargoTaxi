@@ -2,13 +2,13 @@
 	// @ts-nocheck
 	import { goto } from '$app/navigation';
 	import { auth } from '$lib/scripts/firebase';
+	import { returnUrl } from '$lib/scripts/storage';
 	import { RecaptchaVerifier, signInWithPhoneNumber, updateProfile } from 'firebase/auth';
 
 	let timeResendSMS = 60;
 	let code = '';
 	let userName = '';
 	let phoneNumber = '';
-	export let returnUrl = '/';
 
 	/**
 	 * @type {import("@firebase/auth").ApplicationVerifier}
@@ -108,7 +108,7 @@
 										updateProfile(user, { displayName: userName });
 									}
 									console.log(user);
-									goto(returnUrl);
+									goto($returnUrl);
 								})
 								.catch(error => {
 									console.log(error);

@@ -20,7 +20,7 @@
 </script>
 
 <PageTitle>
-	<button class="btn btn-sm btn-dark text-light" on:click={() => goto('/driver/orders')}
+	<button class="btn btn-sm btn-dark text-light" on:click={() => goto('/driver/orders#' + $page.params.uid)}
 		><i class="fa-solid fa-chevron-left me-1" />Назад</button>
 </PageTitle>
 

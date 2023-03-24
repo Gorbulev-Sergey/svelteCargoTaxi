@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import Auth from '$lib/components/Auth.svelte';
 	import { auth } from '$lib/scripts/firebase';
-	import { driversCount, ordersCount } from '$lib/scripts/storage';
+	import { driversCount, ordersCount, returnUrl } from '$lib/scripts/storage';
 	import { signOut } from 'firebase/auth';
 
 	let sidbarWidth = '14em';
@@ -12,6 +12,7 @@
 		{ title: 'Автомобили', url: '', pin: '12' },
 		{ title: 'Статистика', url: '', pin: '' },
 	];
+	$returnUrl = '/admin/orders';
 </script>
 
 <Auth>

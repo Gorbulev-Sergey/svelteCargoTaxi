@@ -2,11 +2,13 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Auth from '$lib/components/Auth.svelte';
+	import { returnUrl } from '$lib/scripts/storage';
 
 	let routes = [
 		{ route: '/driver/orders', title: 'Заказы', icon: 'fa-solid fa-layer-group' },
 		{ route: '/driver/profile', title: 'Профиль', icon: 'fa-regular fa-id-card' },
 	];
+	$returnUrl = '/driver/orders';
 </script>
 
 <Auth signInUrl="/admin/authPhone">
