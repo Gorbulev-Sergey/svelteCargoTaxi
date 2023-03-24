@@ -1,10 +1,9 @@
 <script>
 	// @ts-nocheck
-	import Order from '$lib/components/admin/Order.svelte';
+	import Order from '$lib/components/driver/Order.svelte';
 	import { db } from '$lib/scripts/firebase';
 	import { onValue, ref } from 'firebase/database';
 	import { onMount } from 'svelte';
-	import ButtonSelector from '$lib/components/others/ButtonSelector.svelte';
 	import { goto } from '$app/navigation';
 	import { orderSelected } from '$lib/scripts/storage';
 	import PageTitle from '$lib/components/driver/PageTitle.svelte';
@@ -27,12 +26,12 @@
 			titles={['Сначала новые', 'Сначала старые']}
 			onSelected={t => {
 				switch (t) {
-					case true:
+					case false:
 						orders = Object.fromEntries(
 							Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)),
 						);
 						break;
-					case false:
+					case true:
 						orders = Object.fromEntries(
 							Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v1.created) - new Date(v2.created)),
 						);
@@ -48,6 +47,7 @@
 			i={(i + 1).toString()}
 			{uid}
 			{order}
+			_style="cursor:pointer"
 			on:click={() => {
 				$orderSelected = order;
 				goto(`/driver/orders/${uid}`);

@@ -1,7 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import Order from '$lib/components/admin/Order.svelte';
+	import Order from '$lib/components/driver/Order.svelte';
 	import PageTitle from '$lib/components/driver/PageTitle.svelte';
 	import { db } from '$lib/scripts/firebase';
 	import { orderSelected } from '$lib/scripts/storage';

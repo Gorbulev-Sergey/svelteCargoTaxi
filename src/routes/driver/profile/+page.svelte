@@ -20,14 +20,14 @@
 <PageTitle>Мой профиль</PageTitle>
 
 <Auth>
-	<div class="bg-light p-3 rounded mx-2">
+	<div class="rounded mx-3">
 		{#if user.photoURL}
 			<img class="w-25" src={user.photoURL} alt="" />
 		{/if}
-		<div><i>меня зовут</i>: <b>{user.displayName}</b></div>
-		<div><i>телефон</i>: <b>{user.phoneNumber}</b></div>
+		<div>имя: <b>{user.displayName}</b></div>
+		<div>телефон: <b>{user.phoneNumber}</b></div>
 		{#if user.email}
-			<div><i>email</i>: <b>{user.email}</b></div>
+			<div>email: <b>{user.email}</b></div>
 		{/if}
 	</div>
 </Auth>
