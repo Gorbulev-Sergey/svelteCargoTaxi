@@ -1,6 +1,5 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import { auth } from '$lib/scripts/firebase';
 	import { returnUrl as returnToUrl } from '$lib/scripts/storage';
 	import { onMount } from 'svelte';
@@ -15,7 +14,7 @@
 				isSignIn = true;
 			} else {
 				isSignIn = false;
-				goto('/admin/authPhone');
+				goto('/others/auth/authPhone');
 			}
 		});
 	});

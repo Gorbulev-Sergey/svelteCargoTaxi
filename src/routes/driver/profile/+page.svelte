@@ -1,8 +1,7 @@
 <script>
-	import Auth from '$lib/components/Auth.svelte';
 	import PageTitle from '$lib/components/driver/PageTitle.svelte';
 	import { auth } from '$lib/scripts/firebase';
-	import { onAuthStateChanged } from 'firebase/auth';
+	import { onAuthStateChanged, signOut } from 'firebase/auth';
 	import { onMount } from 'svelte';
 
 	/**
@@ -17,9 +16,14 @@
 	});
 </script>
 
-<PageTitle>Мой профиль</PageTitle>
+<PageTitle>
+	<div class="d-flex justify-content-between align-items-center">
+		<div>Мой профиль</div>
+		<button class="btn btn-sm btn-dark text-light" on:click={() => signOut(auth)}>Выйти</button>
+	</div>
+</PageTitle>
 
-<Auth returnToUrl="/driver/profile">
+{#if user}
 	<div class="rounded mx-3">
 		{#if user.photoURL}
 			<img class="w-25" src={user.photoURL} alt="" />
@@ -30,4 +34,4 @@
 			<div>email: <b>{user.email}</b></div>
 		{/if}
 	</div>
-</Auth>
+{/if}

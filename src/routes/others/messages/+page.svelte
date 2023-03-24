@@ -3,7 +3,7 @@
 	import PageTitle from '$lib/components/PageTitle.svelte';
 	import { getMessaging, getToken } from 'firebase/messaging';
 	import PageLayout from '$lib/components/PageLayout.svelte';
-	import Alert from '$lib/components/Alert.svelte';
+	import Alert from '$lib/components/others/Alert.svelte';
 	import { text } from 'svelte/internal';
 	import { sendFCM } from '$lib/scripts/firebaseCloudMessage';
 
@@ -16,7 +16,7 @@
 	let message = {
 		theme: 'orders',
 		title: '',
-		text: ''
+		text: '',
 	};
 	$: hideAlert = true;
 </script>
@@ -49,22 +49,22 @@
 						headers: {
 							'Content-type': 'application/json; charset=UTF-8',
 							Authorization:
-								'key=AAAAwAwwrpU:APA91bFvwPEwjJT9SjMo6u7DPWdB9msy6sbeis6JKvr1V-HBPWMQTv4SfCpLnNmbZSpRUrnFntW0YsRAQGm4t3vlIXKTl5e5tBU_2Fnc5_kQf2afQ9JeTm1WC152sPIDV8u60WGiuANv'
+								'key=AAAAwAwwrpU:APA91bFvwPEwjJT9SjMo6u7DPWdB9msy6sbeis6JKvr1V-HBPWMQTv4SfCpLnNmbZSpRUrnFntW0YsRAQGm4t3vlIXKTl5e5tBU_2Fnc5_kQf2afQ9JeTm1WC152sPIDV8u60WGiuANv',
 						},
 						body: JSON.stringify({
 							to: `/topics/${message.theme}`,
 							notification: {
 								body: message.text,
-								title: message.title
-							}
-						})
+								title: message.title,
+							},
+						}),
 					}).then(s => {
 						hideAlert = false;
 						setInterval(() => (hideAlert = true), 2000);
 						message = {
 							theme: 'orders',
 							title: '',
-							text: ''
+							text: '',
 						};
 					});
 			}}>Отправить сообщение</button>
