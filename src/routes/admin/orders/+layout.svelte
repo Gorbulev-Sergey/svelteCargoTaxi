@@ -2,13 +2,13 @@
 	import { goto } from '$app/navigation';
 	import Auth from '$lib/components/Auth.svelte';
 	import { auth } from '$lib/scripts/firebase';
-	import { ordersCount } from '$lib/scripts/storage';
+	import { driversCount, ordersCount } from '$lib/scripts/storage';
 	import { signOut } from 'firebase/auth';
 
 	let sidbarWidth = '14em';
 	$: menu = [
 		{ title: 'Заказы', url: '/admin/orders', pin: $ordersCount },
-		{ title: 'Водители', url: '', pin: '20' },
+		{ title: 'Водители', url: '', pin: $driversCount },
 		{ title: 'Автомобили', url: '', pin: '12' },
 		{ title: 'Статистика', url: '', pin: '' },
 	];

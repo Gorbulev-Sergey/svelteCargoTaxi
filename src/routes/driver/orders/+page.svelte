@@ -7,6 +7,7 @@
 	import ButtonSelector from '$lib/components/others/ButtonSelector.svelte';
 	import { goto } from '$app/navigation';
 	import { orderSelected } from '$lib/scripts/storage';
+	import PageTitle from '$lib/components/driver/PageTitle.svelte';
 
 	let orders = new Object();
 	onMount(async () => {
@@ -18,7 +19,7 @@
 	});
 </script>
 
-<div class="position-sticky sticky-top px-3 py-2 mb-3 bg-light">
+<PageTitle>
 	<div class="d-flex flex-wrap gap-1">
 		<ButtonSelector titles={['Однодневные', 'Многодневные']} />
 		<ButtonSelector
@@ -38,7 +39,7 @@
 				}
 			}} />
 	</div>
-</div>
+</PageTitle>
 
 <div class="container-fluid" style="margin-bottom:4.5em">
 	{#each Object.entries(orders) as [uid, order], i}

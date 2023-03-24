@@ -29,5 +29,3 @@
 
 <input class="form-control" bind:value={phoneNumber} placeholder="номер телефона" />
 <input class="form-control" bind:value={code} placeholder="код из смс" /> -->
-
-<svelte:component this={x} />

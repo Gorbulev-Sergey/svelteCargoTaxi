@@ -9,10 +9,11 @@
 	import { db } from '$lib/scripts/firebase';
 	import { onValue, ref, remove } from 'firebase/database';
 	import { onMount } from 'svelte';
-	import { ordersCount } from '$lib/scripts/storage';
+	import { driversCount, ordersCount } from '$lib/scripts/storage';
 	import DropdownSelector from '$lib/components/others/DropdownSelector.svelte';
 
-	$: orders = new Map();
+	$: orders = new Object();
+	$: drivers = new Object();
 	Date.prototype.getWeek = function () {
 		let date = new Date(this.getTime());
 		date.setHours(0, 0, 0, 0);
@@ -158,7 +159,13 @@
 		onValue(ref(db, '/orders'), s => {
 			if (s.exists()) {
 				orders = s.val();
-				$ordersCount = Object.keys(orders).length.toString();
+				$ordersCount = Object.keys(orders).length;
+			}
+		});
+		onValue(ref(db, '/driver'), s => {
+			if (s.exists()) {
+				orders = s.val();
+				$driversCount = Object.keys(drivers).length;
 			}
 		});
 	});
