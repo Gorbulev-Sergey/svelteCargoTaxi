@@ -12,7 +12,7 @@
 <div id={uid} class="d-flex gap-2 mb-3 {_class}" style={_style} on:click>
 	<div
 		class="d-flex justify-content-start align-items-end bg-opacity-75 px-1 py-2"
-		class:bg-light={!order.status}
+		class:bg-white={!order.status}
 		class:bg-dark={order.status == 'взят'}
 		class:bg-info={order.status == 'едет'}
 		class:bg-success={order.status == 'завершён'}>
