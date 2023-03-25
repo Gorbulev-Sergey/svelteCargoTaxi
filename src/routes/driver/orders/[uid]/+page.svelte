@@ -27,10 +27,10 @@
 
 {#if order.product && $user}
 	<Order uid={$page.params.uid} {order}>
-		<div class="mb-2">
+		<div class="d-flex justify-content-end">
 			{#if !order.status}
 				<button
-					class="btn btn-dark text-light"
+					class="btn btn-sm btn-dark text-light"
 					on:click={async () => {
 						order.driver = $user.uid;
 						order.status = 'взят';
@@ -40,7 +40,7 @@
 			{/if}
 			{#if order.status == 'взят' && $user.uid == order.driver}
 				<button
-					class="btn btn-dark text-light"
+					class="btn btn-sm btn-dark text-light"
 					on:click={async () => {
 						order.status = 'едет';
 						update(ref(db, '/orders/' + $page.params.uid), order);
@@ -49,7 +49,7 @@
 			{/if}
 			{#if order.status == 'едет' && $user.uid == order.driver}
 				<button
-					class="btn btn-success text-light"
+					class="btn btn-sm btn-success text-light"
 					on:click={async () => {
 						order.status = 'завершён';
 						update(ref(db, '/orders/' + $page.params.uid), order);
