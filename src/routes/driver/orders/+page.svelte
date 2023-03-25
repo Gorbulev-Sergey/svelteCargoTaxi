@@ -54,7 +54,7 @@
 				$orderSelected = order;
 				goto(`/driver/orders/${uid}`);
 			}}>
-			<div slot="nav">
+			<div class="d-flex justify-content-end">
 				<div class="mb-2">
 					{#if !order.status}
 						<button
