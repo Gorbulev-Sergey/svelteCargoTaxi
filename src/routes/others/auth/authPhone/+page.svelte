@@ -23,11 +23,11 @@
 <div class="d-flex justify-content-center align-items-center mx-2" style="min-height: 100vh;">
 	<div class="p-3 rounded text-center">
 		<div class="mb-3">
-			<h2 class="mb-1">Добро пожаловать!</h2>
+			<h3 class="mb-1">Добро пожаловать!</h3>
 			<div class="text-muted">Введите регистрационные данные</div>
 		</div>
-		<input class="form-control form-control-lg text-center mb-2" placeholder="Ваше имя (или логин)" bind:value={userName} />
-		<div class="input-group input-group-lg mb-4">
+		<input class="form-control text-center mb-2" placeholder="Ваше имя (или логин)" bind:value={userName} />
+		<div class="input-group mb-2">
 			<span class="input-group-text">+7</span>
 			{#if userName.trim().length > 0}
 				<input
@@ -83,10 +83,10 @@
 						});
 				}}>{timeResendSMS == 60 ? 'Отправить смс с кодом' : `Отправить код через ${timeResendSMS} сек`}</button>
 		{:else}
-			<button id="sign-in-button" class="btn btn-lg btn-dark text-light w-100 mb-2" disabled>Получить смс с кодом</button>
+			<button id="sign-in-button" class="btn btn-dark text-light w-100 mb-2" disabled>Получить смс с кодом</button>
 		{/if}
 
-		<div class="input-group input-group-lg">
+		<div class="input-group">
 			{#if phoneNumber.length == 10 && confirmationResult}
 				<input
 					type="tel"
