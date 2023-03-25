@@ -26,7 +26,7 @@
 </PageTitle>
 
 {#if order.product && $user}
-	<Order uid={$page.params.uid} {order} _class="mx-2">
+	<Order uid={$page.params.uid} {order}>
 		<div class="mb-2">
 			{#if !order.status}
 				<button

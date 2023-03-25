@@ -9,7 +9,7 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div id={uid} class="d-flex bg-light text-dark gap-2 p-2 mb-3 rounded {_class}" style={_style} on:click>
+<div id={uid} class="d-flex gap-2 p-2 mb-3 {_class}" style={_style} on:click>
 	<div class="d-flex flex-column justify-content-between align-items-center">
 		<div class="badge bg-dark bg-opacity-25 text-dark mt-1 p-1">{i}</div>
 		{#if order.status}

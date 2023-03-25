@@ -42,12 +42,13 @@
 	</div>
 </PageTitle>
 
-<div class="container-fluid" style="margin-bottom:4.5em">
+<div class="" style="margin-bottom:4.5em">
 	{#each Object.entries(orders) as [uid, order], i}
 		<Order
 			i={(i + 1).toString()}
 			{uid}
 			{order}
+			_class="bg-light text-dark"
 			_style="cursor:pointer"
 			on:click={() => {
 				$orderSelected = order;
