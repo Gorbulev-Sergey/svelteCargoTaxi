@@ -21,8 +21,20 @@
 </script>
 
 <PageTitle>
-	<button class="btn btn-sm btn-dark text-light" on:click={() => goto('/driver/orders#' + $page.params.uid)}
-		><i class="fa-solid fa-chevron-left me-1" />Назад</button>
+	<div class="d-flex justify-content-between align-items-center">
+		<button class="btn btn-sm btn-dark text-light" on:click={() => goto('/driver/orders#' + $page.params.uid)}
+			><i class="fa-solid fa-chevron-left me-1" />Назад</button>
+		{#if order.status}
+			<button
+				class="btn btn-sm btn-danger text-light"
+				on:click|stopPropagation={async () => {
+					order.driver = $user.uid;
+					order.status = null;
+					update(ref(db, '/orders/' + $page.params.uid), order);
+					goto('/driver/orders');
+				}}>Отменить заказ</button>
+		{/if}
+	</div>
 </PageTitle>
 
 {#if order.product && $user}
@@ -36,7 +48,7 @@
 						order.status = 'взят';
 						update(ref(db, '/orders/' + $page.params.uid), order);
 						goto('/driver/orders');
-					}}>Взять заказ</button>
+					}}>Взять</button>
 			{/if}
 			{#if order.status == 'взят' && $user.uid == order.driver}
 				<button
@@ -45,7 +57,7 @@
 						order.status = 'едет';
 						update(ref(db, '/orders/' + $page.params.uid), order);
 						goto('/driver/orders');
-					}}>Везти заказ</button>
+					}}>Везти</button>
 			{/if}
 			{#if order.status == 'едет' && $user.uid == order.driver}
 				<button
@@ -54,7 +66,7 @@
 						order.status = 'завершён';
 						update(ref(db, '/orders/' + $page.params.uid), order);
 						goto('/driver/orders');
-					}}>Завершить заказ</button>
+					}}>Завершить</button>
 			{/if}
 		</div>
 	</Order>

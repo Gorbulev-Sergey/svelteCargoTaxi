@@ -11,7 +11,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div id={uid} class="d-flex gap-2 mb-3 {_class}" style={_style} on:click>
 	<div
-		class="d-flex justify-content-start align-items-end px-1 py-2"
+		class="d-flex justify-content-start align-items-end bg-opacity-75 px-1 py-2"
 		class:bg-light={!order.status}
 		class:bg-dark={order.status == 'взят'}
 		class:bg-info={order.status == 'едет'}
