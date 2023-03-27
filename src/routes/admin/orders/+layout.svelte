@@ -42,12 +42,13 @@
 			</div>
 			<div class="d-flex justify-content-between align-items-center bg-light p-2">
 				<div class="d-flex flex-wrap align-items-center gap-1 text-center px-1">
+					<ButtonToggleSmall titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} />
 					<ButtonToggleSmall titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />
 					<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />
 					<DropdownSelectorSmall
+						isLast={true}
 						titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
 						bind:selected={$selectedPrevTodayNext} />
-					<ButtonToggleSmall titles={['сначала новые', 'сначала старые']} isLast={true} bind:selected={$selectedNewOld} />
 				</div>
 			</div>
 		</div>
@@ -70,12 +71,12 @@
 				<div class="sticky-top d-flex justify-content-between align-items-center bg-light p-2">
 					<h4 class="mx-2 my-0">Заказы</h4>
 					<div class="d-flex flex-wrap align-items-center gap-2 text-center px-2">
+						<ButtonToggle titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} />
 						<ButtonSelector titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />
 						<ButtonSelector titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />
 						<DropdownSelector
 							titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
 							bind:selected={$selectedPrevTodayNext} />
-						<ButtonToggle titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} />
 					</div>
 					<div>
 						<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>

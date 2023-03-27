@@ -171,11 +171,10 @@
 
 <PageTitle>
 	<div class="d-flex justify-content-center align-items-center gap-1 py-1">
-		<ButtonToggleSmall titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} />
-		<ButtonToggleSmall titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />
-		<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />
+		<ButtonToggleSmall titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} />|
+		<ButtonToggleSmall titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />|
+		<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />|
 		<DropdownSelectorSmall
-			isLast={true}
 			titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
 			bind:selected={$selectedPrevTodayNext} />
 	</div>
