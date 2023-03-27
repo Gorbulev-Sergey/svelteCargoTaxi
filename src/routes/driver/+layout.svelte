@@ -10,8 +10,7 @@
 </script>
 
 <Auth returnUrl="/driver/orders">
-	<slot />
-	<div class="position-fixed fixed-bottom bottom-0 start-0 w-100">
+	<div class="sticky-top mb-3">
 		<div class="btn-group w-100 rounded-0">
 			{#each routes as route}
 				<button
@@ -21,4 +20,5 @@
 			{/each}
 		</div>
 	</div>
+	<slot />
 </Auth>

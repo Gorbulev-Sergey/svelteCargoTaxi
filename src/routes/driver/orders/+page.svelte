@@ -178,7 +178,7 @@
 	</div>
 </PageTitle>
 
-<div class="" style="margin-bottom:4.5em">
+<div style="margin-bottom: 5em;">
 	{#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
 		<Order
 			i={iForOrders(i)}
