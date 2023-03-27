@@ -42,11 +42,10 @@
 			</div>
 			<div class="d-flex justify-content-between align-items-center bg-light p-2">
 				<div class="d-flex flex-wrap align-items-center gap-1 text-center px-1">
-					<ButtonToggleSmall titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} />
-					<ButtonToggleSmall titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />
-					<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />
+					<ButtonToggleSmall titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} />|
+					<ButtonToggleSmall titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />|
+					<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />|
 					<DropdownSelectorSmall
-						isLast={true}
 						titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
 						bind:selected={$selectedPrevTodayNext} />
 				</div>
