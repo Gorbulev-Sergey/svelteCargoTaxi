@@ -13,7 +13,7 @@
 		<div class="d-flex flex-column w-100">
 			{#each titles as title, i}
 				<button
-					class="btn btn-sm btn-light text-start rounded-0"
+					class="btn btn-light text-start rounded-0"
 					on:click={() => {
 						selected = i;
 						onSelected();
