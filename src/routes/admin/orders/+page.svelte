@@ -1,11 +1,11 @@
 <script>
 	// @ts-nocheck
 	import { goto } from '$app/navigation';
-	import Order from '$lib/components/admin/Order.svelte';
+	import Order from '$lib/components/driver/Order.svelte';
 	import ConfirmDialog from '$lib/components/others/ConfirmDelete.svelte';
 	import { Order as _Order } from '$lib/models/Order';
 	import { db } from '$lib/scripts/firebase';
-	import { onValue, ref, remove } from 'firebase/database';
+	import { onValue, ref, remove, update } from 'firebase/database';
 	import { onMount } from 'svelte';
 	import {
 		selectedNewOld,
@@ -13,6 +13,7 @@
 		selectedTakeGive,
 		ordersCount,
 		selectedOneManyDays,
+		user,
 	} from '$lib/scripts/storage';
 
 	Date.prototype.getWeek = function () {
@@ -165,12 +166,33 @@
 </script>
 
 {#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
-	<Order i={iForOrders(i)} {uid} {order}>
-		<div slot="nav" class="d-flex gap-1 flex-column">
+	<Order i={iForOrders(i)} {uid} {order} _class="rounded bg-light">
+		<div slot="nav" class="d-flex gap-1 flex-column align-items-end m-2">
 			<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
 				<i class="fa-regular fa-pen-to-square" />
 			</button>
 			<ConfirmDialog title="Удалить этот заказ?" onDelete={async () => remove(ref(db, `/orders/${uid}`))} />
+
+			<div class="flex-grow-1 d-flex flex-column justify-content-end gap-1">
+				{#if order.status}
+					<button
+						class="btn btn-sm btn-danger text-light w-100"
+						on:click|stopPropagation={async () => {
+							let newOrder = order;
+							newOrder.status = null;
+							update(ref(db, '/orders/' + uid), newOrder);
+						}}>Отменить</button>
+				{/if}
+				{#if order.status != 'завершён'}
+					<button
+						class="btn btn-sm btn-success text-light w-100"
+						on:click|stopPropagation={async () => {
+							let newOrder = order;
+							newOrder.status = 'завершён';
+							update(ref(db, '/orders/' + uid), newOrder);
+						}}>Завершить</button>
+				{/if}
+			</div>
 		</div>
 	</Order>
 {/each}
