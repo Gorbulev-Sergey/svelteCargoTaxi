@@ -19,7 +19,7 @@
 	};
 </script>
 
-<PageTitle title="Новый заказ">
+<PageTitle>
 	<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders')}>Отмена</button>
 	<button
 		class="btn btn-dark text-light"

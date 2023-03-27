@@ -24,11 +24,9 @@
 	};
 
 	$: orders = new Object();
-
 	let hasWeek = false;
 	let hasDate = true;
 	let selectedDate = new Date();
-
 	$: iForOrders = (/** @type {number} */ i) => ($selectedNewOld == 0 ? Object.keys(ordersFiltered()).length - i : i + 1);
 
 	$: ordersOneManyDays = () => {

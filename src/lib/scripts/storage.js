@@ -19,3 +19,9 @@ export let selectedNewOld = writable(0);
 export let selectedPrevTodayNext = writable(2);
 export let selectedOneManyDays = writable(0);
 export let selectedTakeGive = writable(0);
+
+// Страница заказы (раздел водителя)
+export let selectedNewOldDriver = writable(0);
+export let selectedPrevTodayNextDriver = writable(2);
+export let selectedOneManyDaysDriver = writable(0);
+export let selectedTakeGiveDriver = writable(0);

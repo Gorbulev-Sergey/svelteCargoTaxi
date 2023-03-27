@@ -8,7 +8,12 @@
 	import { orderSelected, user } from '$lib/scripts/storage';
 	import PageTitle from '$lib/components/driver/PageTitle.svelte';
 	import ButtonToggle from '$lib/components/others/ButtonToggle.svelte';
-	import { selectedNewOld, selectedPrevTodayNext, selectedTakeGive, selectedOneManyDays } from '$lib/scripts/storage';
+	import {
+		selectedNewOldDriver as selectedNewOld,
+		selectedPrevTodayNextDriver as selectedPrevTodayNext,
+		selectedTakeGiveDriver as selectedTakeGive,
+		selectedOneManyDaysDriver as selectedOneManyDays,
+	} from '$lib/scripts/storage';
 	import DropdownSelector from '$lib/components/others/DropdownSelector.svelte';
 
 	Date.prototype.getWeek = function () {
