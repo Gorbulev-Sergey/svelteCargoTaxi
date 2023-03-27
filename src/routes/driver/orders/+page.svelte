@@ -168,17 +168,21 @@
 </script>
 
 <PageTitle>
-	<div class="d-flex flex-wrap gap-1">
-		<ButtonToggle titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />
-		<ButtonToggle titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />
-		<DropdownSelector
-			titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
-			bind:selected={$selectedPrevTodayNext} />
-		<ButtonToggle titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} />
+	<div class="d-flex flex-column gap-1">
+		<div class="d-flex flex-wrap justify-content-center gap-1">
+			<ButtonToggle titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />
+			<DropdownSelector
+				titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
+				bind:selected={$selectedPrevTodayNext} />
+			<ButtonToggle titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />
+		</div>
+		<div class="d-flex flex-wrap justify-content-center gap-1">
+			<ButtonToggle titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} />
+		</div>
 	</div>
 </PageTitle>
 
-<div style="margin-bottom: 5em;">
+<div style="margin-bottom: 6em;">
 	{#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
 		<Order
 			i={iForOrders(i)}
