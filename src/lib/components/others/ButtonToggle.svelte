@@ -10,12 +10,10 @@
 	{#if placeholder.trim() != ''}
 		<i class="btn btn-sm border-0" style="cursor:default">{placeholder}</i>
 	{/if}
-	<div class="btn-group btn-group-sm">
-		<button
-			class="btn btn-dark"
-			on:click={() => {
-				selected == 0 ? (selected = 1) : (selected = 0);
-				onSelected(selected);
-			}}>{selected == 0 ? titles[0] : titles[1]}</button>
-	</div>
+	<button
+		class="btn btn-sm btn-dark"
+		on:click={() => {
+			selected == 0 ? (selected = 1) : (selected = 0);
+			onSelected(selected);
+		}}>{selected == 0 ? titles[0] : titles[1]}</button>
 </div>
