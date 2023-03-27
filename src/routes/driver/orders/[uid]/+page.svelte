@@ -22,7 +22,7 @@
 
 <PageTitle>
 	<div class="d-flex justify-content-between align-items-center">
-		<button class="btn btn-sm btn-dark text-light" on:click={() => goto('/driver/orders#' + $page.params.uid)}>
+		<button class="btn btn-light text-ldark" on:click={() => goto('/driver/orders#' + $page.params.uid)}>
 			<i class="fa-solid fa-chevron-left me-1" />Назад</button>
 		{#if order.status == 'взят'}
 			<button
