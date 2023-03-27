@@ -5,7 +5,9 @@
 	import Before from '$lib/components/others/breakepoints/Before.svelte';
 	import ButtonSelector from '$lib/components/others/ButtonSelector.svelte';
 	import ButtonToggle from '$lib/components/others/ButtonToggle.svelte';
+	import ButtonToggleSmall from '$lib/components/others/ButtonToggleSmall.svelte';
 	import DropdownSelector from '$lib/components/others/DropdownSelector.svelte';
+	import DropdownSelectorSmall from '$lib/components/others/DropdownSelectorSmall.svelte';
 	import { selectedNewOld, selectedOneManyDays, selectedPrevTodayNext, selectedTakeGive } from '$lib/scripts/storage';
 
 	$: routes = [
@@ -40,12 +42,12 @@
 			</div>
 			<div class="d-flex justify-content-between align-items-center bg-light p-2">
 				<div class="d-flex flex-wrap align-items-center gap-1 text-center px-1">
-					<ButtonToggle titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />
-					<ButtonToggle titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />
-					<DropdownSelector
+					<ButtonToggleSmall titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />
+					<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />
+					<DropdownSelectorSmall
 						titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
 						bind:selected={$selectedPrevTodayNext} />
-					<ButtonToggle titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} />
+					<ButtonToggleSmall titles={['сначала новые', 'сначала старые']} isLast={true} bind:selected={$selectedNewOld} />
 				</div>
 			</div>
 		</div>

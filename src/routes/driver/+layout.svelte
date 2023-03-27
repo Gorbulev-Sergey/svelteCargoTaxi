@@ -14,7 +14,7 @@
 		<div class="btn-group w-100 rounded-0">
 			{#each routes as route}
 				<button
-					class="btn w-100 rounded-0 {$page.route.id == route.route ? ' btn-dark text-light' : ' btn-light text-dark'}"
+					class="btn py-2 w-100 rounded-0 {$page.route.id == route.route ? ' btn-dark text-light' : ' btn-light text-dark'}"
 					on:click={() => goto(route.route)}>
 					<i class="{route.icon} me-1" />{route.title}</button>
 			{/each}
