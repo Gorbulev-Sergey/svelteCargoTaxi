@@ -1,6 +1,5 @@
 <script>
 	// @ts-nocheck
-
 	import { goto } from '$app/navigation';
 	import Order from '$lib/components/admin/Order.svelte';
 	import ConfirmDialog from '$lib/components/others/ConfirmDelete.svelte';
