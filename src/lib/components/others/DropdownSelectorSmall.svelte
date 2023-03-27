@@ -5,10 +5,10 @@
 </script>
 
 <div class="d-inline-flex">
-	<small class="text-nowrap" style="cursor: pointer; user-select:none;" data-bs-toggle="dropdown">
+	<div class="text-nowrap" style="cursor: pointer; user-select:none;" data-bs-toggle="dropdown">
 		<span>{titles[selected]}</span>
 		<i class="fa-solid fa-angle-down" />
-	</small>
+	</div>
 	<div class="dropdown-menu bg-light border-0">
 		<div class="d-flex flex-column w-100">
 			{#each titles as title, i}

@@ -11,7 +11,7 @@
 		<small class="me-1">{placeholder}:</small>
 	{/if}
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<small
+	<div
 		class="text-nowrap"
 		style="cursor: pointer; user-select:none;"
 		on:click={() => {
@@ -19,5 +19,5 @@
 			onSelected(selected);
 		}}>
 		<span>{selected == 0 ? titles[0] : titles[1]}</span>
-	</small>
+	</div>
 </div>
