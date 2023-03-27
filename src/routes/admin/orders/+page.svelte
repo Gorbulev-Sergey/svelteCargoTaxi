@@ -1,20 +1,23 @@
 <script>
 	// @ts-nocheck
-	import ButtonSelector from '$lib/components/others/ButtonSelector.svelte';
+
 	import { goto } from '$app/navigation';
 	import Order from '$lib/components/admin/Order.svelte';
 	import ConfirmDialog from '$lib/components/others/ConfirmDelete.svelte';
-	import PageLayout from '$lib/components/PageLayout.svelte';
 	import { Order as _Order } from '$lib/models/Order';
 	import { db } from '$lib/scripts/firebase';
 	import { onValue, ref, remove } from 'firebase/database';
 	import { onMount } from 'svelte';
-	import { driversCount, ordersCount } from '$lib/scripts/storage';
-	import DropdownSelector from '$lib/components/others/DropdownSelector.svelte';
-	import ButtonToggle from '$lib/components/others/ButtonToggle.svelte';
+	import {
+		selectedNewOld,
+		selectedOneManyDays,
+		selectedPrevTodayNext,
+		selectedTakeGive,
+		ordersCount,
+	} from '$lib/scripts/storage';
 
 	$: orders = new Object();
-	$: drivers = new Object();
+	// @ts-ignore
 	Date.prototype.getWeek = function () {
 		let date = new Date(this.getTime());
 		date.setHours(0, 0, 0, 0);
@@ -26,26 +29,21 @@
 	let hasWeek = false;
 	let hasDate = true;
 	let selectedDate = new Date();
-
-	$: selectedOneManyDays = 0;
-	$: selectedPrevTodayNext = 2;
-	$: selectedTakeGive = 0;
-	$: selectedNewOld = false;
 	$: ordersOneManyDays = () => {
 		let ordersSorted = Object.assign(orders);
-		switch (selectedNewOld) {
-			case false:
+		switch ($selectedNewOld) {
+			case 0:
 				ordersSorted = Object.fromEntries(
 					Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)),
 				);
 				break;
-			case true:
+			case 1:
 				ordersSorted = Object.fromEntries(
 					Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v1.created) - new Date(v2.created)),
 				);
 				break;
 		}
-		switch (selectedOneManyDays) {
+		switch ($selectedOneManyDays) {
 			case 0:
 				return Object.fromEntries(
 					Object.entries(ordersSorted).filter(
@@ -62,7 +60,7 @@
 	};
 
 	$: ordersFiltered = () => {
-		switch (selectedPrevTodayNext) {
+		switch ($selectedPrevTodayNext) {
 			case 0:
 				// Прошлый месяц
 				selectedDate.setMonth(new Date().getMonth() - 1);
@@ -108,7 +106,7 @@
 				hasDate = false;
 				break;
 		}
-		switch (selectedTakeGive) {
+		switch ($selectedTakeGive) {
 			case 0:
 				if (hasWeek) {
 					return Object.fromEntries(
@@ -163,36 +161,16 @@
 				$ordersCount = Object.keys(orders).length;
 			}
 		});
-		onValue(ref(db, '/driver'), s => {
-			if (s.exists()) {
-				orders = s.val();
-				$driversCount = Object.keys(drivers).length;
-			}
-		});
 	});
 </script>
 
-<PageLayout title="Заказы">
-	<div class="d-flex flex-wrap align-items-center gap-2 text-center px-2" slot="center">
-		<ButtonSelector titles={['Однодневные', 'Многодневные']} bind:selected={selectedOneManyDays} />
-		<ButtonSelector titles={['забрать', 'доставить']} bind:selected={selectedTakeGive} />
-		<DropdownSelector
-			titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
-			bind:selected={selectedPrevTodayNext} />
-		<ButtonToggle titles={['сначала новые', 'сначала старые']} bind:selected={selectedNewOld} />
-	</div>
-	<div slot="nav">
-		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>
-	</div>
-
-	{#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
-		<Order i={Object.keys(ordersFiltered()).length - i} {uid} {order}>
-			<div slot="nav" class="d-flex gap-1 flex-column">
-				<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
-					<i class="fa-regular fa-pen-to-square" />
-				</button>
-				<ConfirmDialog title="Удалить этот заказ?" onDelete={async () => remove(ref(db, `/orders/${uid}`))} />
-			</div>
-		</Order>
-	{/each}
-</PageLayout>
+{#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
+	<Order i={Object.keys(ordersFiltered()).length - i} {uid} {order}>
+		<div slot="nav" class="d-flex gap-1 flex-column">
+			<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
+				<i class="fa-regular fa-pen-to-square" />
+			</button>
+			<ConfirmDialog title="Удалить этот заказ?" onDelete={async () => remove(ref(db, `/orders/${uid}`))} />
+		</div>
+	</Order>
+{/each}

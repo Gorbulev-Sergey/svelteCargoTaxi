@@ -1,7 +1,7 @@
 <script>
 	import { Order } from '$lib/models/Order';
 
-	export let i = '';
+	export let i = 0;
 	export let uid = '';
 	export let order = new Order();
 	export let _class = '';

@@ -1,9 +1,9 @@
 <script>
 	export let placeholder = '';
 	export let titles = new Array();
-	export let selected = false;
+	export let selected = 0;
 	export let _class = '';
-	export let onSelected = (/** @type {boolean} */ selected) => {};
+	export let onSelected = (/** @type {number} */ selected) => {};
 </script>
 
 <div class="d-inline-flex align-items-center {_class}">
@@ -14,8 +14,8 @@
 		<button
 			class="btn btn-dark"
 			on:click={() => {
-				selected = !selected;
+				selected == 0 ? (selected = 1) : (selected = 0);
 				onSelected(selected);
-			}}>{!selected ? titles[0] : titles[1]}</button>
+			}}>{selected == 0 ? titles[0] : titles[1]}</button>
 	</div>
 </div>

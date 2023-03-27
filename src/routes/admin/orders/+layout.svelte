@@ -1,17 +1,16 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 	import Auth from '$lib/components/Auth.svelte';
 	import After from '$lib/components/others/breakepoints/After.svelte';
 	import Before from '$lib/components/others/breakepoints/Before.svelte';
-	import { auth } from '$lib/scripts/firebase';
-	import { driversCount, ordersCount, returnUrl } from '$lib/scripts/storage';
-	import { signOut } from 'firebase/auth';
+	import ButtonSelector from '$lib/components/others/ButtonSelector.svelte';
+	import ButtonToggle from '$lib/components/others/ButtonToggle.svelte';
+	import DropdownSelector from '$lib/components/others/DropdownSelector.svelte';
+	import { selectedNewOld, selectedOneManyDays, selectedPrevTodayNext, selectedTakeGive } from '$lib/scripts/storage';
 
-	let sidbarWidth = '14em';
 	$: routes = [
-		{ title: 'Заказы', url: '/admin/orders', pin: $ordersCount },
-		{ title: 'Водители', url: '', pin: $driversCount },
+		{ title: 'Заказы', url: '/admin/orders', pin: '' },
+		{ title: 'Водители', url: '', pin: '' },
 		{ title: 'Автомобили', url: '', pin: '12' },
 		{ title: 'Статистика', url: '', pin: '' },
 	];
@@ -21,9 +20,9 @@
 	<Before>
 		<div class="sticky-top mb-3 bg-light">
 			<div class="d-flex justify-content-between align-items-center">
-				<button class="btn btn-light bg-light text-dark border-0">Заголовок</button>
+				<button class="btn btn-light bg-light text-dark border-0">Панель управления</button>
 				<div class="dropdown">
-					<button class="btn btn-light m-1" data-bs-toggle="dropdown">Меню</button>
+					<button class="btn btn-light m-1" data-bs-toggle="dropdown"><i class="fa-solid fa-bars" /></button>
 					<div class="dropdown-menu bg-light shadow-sm border-0">
 						<div>
 							{#each routes as route}
@@ -35,8 +34,19 @@
 				</div>
 			</div>
 			<div class="d-flex justify-content-between align-items-center bg-light p-2">
-				<button class="btn btn-sm btn-dark">1</button>
-				<button class="btn btn-sm btn-dark">2</button>
+				<div class="d-flex flex-wrap align-items-center gap-1 text-center px-1">
+					<ButtonToggle titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />
+					<ButtonToggle titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />
+					<DropdownSelector
+						titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
+						bind:selected={$selectedPrevTodayNext} />
+					<ButtonToggle titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} />
+				</div>
+				<div>
+					<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>
+						<i class="fa-solid fa-circle-plus" />
+					</button>
+				</div>
 			</div>
 		</div>
 		<slot />
@@ -44,10 +54,10 @@
 	<After>
 		<div class="d-flex align-items-start">
 			<div class="sticky-top bg-light" style="width: 15em; min-height: 100vh;">
-				<a href="/admin/orders"
-					><img class="w-100" src="https://sun9-68.userapi.com/JMNL26HgHKZeSqtog_oujmPQwE1glD6Njf02_g/mdS7yp5Eq9o.jpg" alt="" />
+				<a href="/admin/orders">
+					<img class="w-100" src="https://sun9-68.userapi.com/JMNL26HgHKZeSqtog_oujmPQwE1glD6Njf02_g/mdS7yp5Eq9o.jpg" alt="" />
 				</a>
-				<div>
+				<div class="mt-2">
 					{#each routes as route}
 						<button class="btn btn-light text-dark text-start w-100 rounded-0" on:click={() => goto(route.url)}
 							>{route.title}</button>
@@ -55,11 +65,21 @@
 				</div>
 			</div>
 			<div class="flex-grow-1 d-flex flex-column gap-3">
-				<div class="sticky-top d-flex justify-content-between align-items-center bg-light p-2 mb3">
-					<button class="btn btn-sm btn-dark">1</button>
-					<button class="btn btn-sm btn-dark">2</button>
+				<div class="sticky-top d-flex justify-content-between align-items-center bg-light p-2">
+					<h4 class="mx-2 my-0">Заказы</h4>
+					<div class="d-flex flex-wrap align-items-center gap-2 text-center px-2">
+						<ButtonSelector titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />
+						<ButtonSelector titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />
+						<DropdownSelector
+							titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
+							bind:selected={$selectedPrevTodayNext} />
+						<ButtonToggle titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} />
+					</div>
+					<div>
+						<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>
+					</div>
 				</div>
-				<div class="px-2">
+				<div class="px-3">
 					<slot />
 				</div>
 			</div>
