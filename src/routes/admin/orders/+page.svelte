@@ -173,25 +173,32 @@
 			</button>
 			<ConfirmDialog title="Удалить этот заказ?" onDelete={async () => remove(ref(db, `/orders/${uid}`))} />
 
-			<div class="flex-grow-1 d-flex flex-column justify-content-end gap-1">
-				{#if order.status}
-					<button
-						class="btn btn-sm btn-danger text-light w-100"
-						on:click|stopPropagation={async () => {
-							let newOrder = order;
-							newOrder.status = null;
-							update(ref(db, '/orders/' + uid), newOrder);
-						}}>Отменить</button>
-				{/if}
-				{#if order.status != 'завершён'}
-					<button
-						class="btn btn-sm btn-success text-light w-100"
-						on:click|stopPropagation={async () => {
-							let newOrder = order;
-							newOrder.status = 'завершён';
-							update(ref(db, '/orders/' + uid), newOrder);
-						}}>Завершить</button>
-				{/if}
+			<div style="display: contents">
+				<button class="btn btn-sm btn-light text-success" title="Cтатус" data-bs-toggle="dropdown">
+					<i class="fa-solid fa-sliders" />
+				</button>
+				<div class="dropdown-menu text-center border-0 shadow-sm p-2">
+					<div class="d-flex flex-column justify-content-end gap-1">
+						{#if order.status}
+							<button
+								class="btn btn-sm btn-danger text-light w-100"
+								on:click|stopPropagation={async () => {
+									let newOrder = order;
+									newOrder.status = null;
+									update(ref(db, '/orders/' + uid), newOrder);
+								}}>Отменить заказ</button>
+						{/if}
+						{#if order.status != 'завершён'}
+							<button
+								class="btn btn-sm btn-success text-light w-100"
+								on:click|stopPropagation={async () => {
+									let newOrder = order;
+									newOrder.status = 'завершён';
+									update(ref(db, '/orders/' + uid), newOrder);
+								}}>Завершить заказ</button>
+						{/if}
+					</div>
+				</div>
 			</div>
 		</div>
 	</Order>
