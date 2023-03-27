@@ -33,7 +33,7 @@
 	$: iForOrders = (/** @type {number} */ i) => ($selectedNewOld == 0 ? Object.keys(ordersFiltered()).length - i : i + 1);
 
 	$: ordersOneManyDays = () => {
-		let ordersSorted = Object.assign(orders);
+		let ordersSorted = Object.fromEntries(Object.entries(orders).filter(o => o[1].driver == $user));
 		switch ($selectedNewOld) {
 			case 0:
 				ordersSorted = Object.fromEntries(
