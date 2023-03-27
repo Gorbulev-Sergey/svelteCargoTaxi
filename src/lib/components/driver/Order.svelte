@@ -1,7 +1,7 @@
 <script>
 	import { Order } from '$lib/models/Order';
 
-	export let i = '';
+	export let i = 0;
 	export let uid = '';
 	export let order = new Order();
 	export let _class = '';
@@ -17,7 +17,9 @@
 		class:bg-info={order.status == 'едет'}
 		class:bg-success={order.status == 'завершён'}>
 		<div style="writing-mode: vertical-rl; transform: rotate(180deg);">
-			<div class="badge bg-dark bg-opacity-50 text-light p-1">{i}</div>
+			{#if i != 0}
+				<div class="badge bg-dark bg-opacity-50 text-light p-1">{i}</div>
+			{/if}
 			{#if order.status}
 				<div class="badge text-light p-0 mt-1">
 					{order.status}

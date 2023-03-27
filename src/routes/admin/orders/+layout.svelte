@@ -19,16 +19,21 @@
 <Auth>
 	<Before>
 		<div class="sticky-top mb-3 bg-light">
-			<div class="d-flex justify-content-between align-items-center">
-				<button class="btn btn-light bg-light text-dark border-0">Панель управления</button>
-				<div class="dropdown">
-					<button class="btn btn-light m-1" data-bs-toggle="dropdown"><i class="fa-solid fa-bars" /></button>
-					<div class="dropdown-menu bg-light shadow-sm border-0">
-						<div>
-							{#each routes as route}
-								<button class="btn btn-light text-dark text-start w-100 rounded-0" on:click={() => goto(route.url)}
-									>{route.title}</button>
-							{/each}
+			<div class="d-flex justify-content-between align-items-center m-1">
+				<button class="btn btn-light bg-light text-dark border-0">Заказы</button>
+				<div class="d-flex align-items-center">
+					<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>
+						<i class="fa-solid fa-circle-plus" />
+					</button>
+					<div class="dropdown">
+						<button class="btn btn-light" data-bs-toggle="dropdown"><i class="fa-solid fa-bars" /></button>
+						<div class="dropdown-menu bg-light shadow-sm border-0">
+							<div>
+								{#each routes as route}
+									<button class="btn btn-light text-dark text-start w-100 rounded-0" on:click={() => goto(route.url)}
+										>{route.title}</button>
+								{/each}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -41,11 +46,6 @@
 						titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
 						bind:selected={$selectedPrevTodayNext} />
 					<ButtonToggle titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} />
-				</div>
-				<div>
-					<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>
-						<i class="fa-solid fa-circle-plus" />
-					</button>
 				</div>
 			</div>
 		</div>

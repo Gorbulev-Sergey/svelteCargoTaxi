@@ -10,14 +10,12 @@
 	import { onMount } from 'svelte';
 	import {
 		selectedNewOld,
-		selectedOneManyDays,
 		selectedPrevTodayNext,
 		selectedTakeGive,
 		ordersCount,
+		selectedOneManyDays,
 	} from '$lib/scripts/storage';
 
-	$: orders = new Object();
-	// @ts-ignore
 	Date.prototype.getWeek = function () {
 		let date = new Date(this.getTime());
 		date.setHours(0, 0, 0, 0);
@@ -26,9 +24,14 @@
 		return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7);
 	};
 
+	$: orders = new Object();
+
 	let hasWeek = false;
 	let hasDate = true;
 	let selectedDate = new Date();
+
+	$: iForOrders = (/** @type {number} */ i) => ($selectedNewOld == 0 ? Object.keys(ordersFiltered()).length - i : i + 1);
+
 	$: ordersOneManyDays = () => {
 		let ordersSorted = Object.assign(orders);
 		switch ($selectedNewOld) {
@@ -165,7 +168,7 @@
 </script>
 
 {#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
-	<Order i={Object.keys(ordersFiltered()).length - i} {uid} {order}>
+	<Order i={iForOrders(i)} {uid} {order}>
 		<div slot="nav" class="d-flex gap-1 flex-column">
 			<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
 				<i class="fa-regular fa-pen-to-square" />

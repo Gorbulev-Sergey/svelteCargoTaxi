@@ -15,7 +15,7 @@ export let orderSelected = writable(new Order());
 export let returnUrl = writable('/');
 
 // Страница заказы (раздел администратора)
-export let selectedOneManyDays = writable(0);
-export let selectedPrevTodayNext = writable(2);
-export let selectedTakeGive = writable(0);
 export let selectedNewOld = writable(0);
+export let selectedPrevTodayNext = writable(2);
+export let selectedOneManyDays = writable(0);
+export let selectedTakeGive = writable(0);
