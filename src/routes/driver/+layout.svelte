@@ -15,7 +15,8 @@
 			{#each routes as route, i}
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<div
-					class="btn py-3 w-100 border-0 rounded-0 text-dark {$page.route.id == route.route ? ' fw-bold' : ''}"
+					class="btn w-100 border-0 rounded-0 text-dark {$page.route.id == route.route ? ' fw-bold' : ''}"
+					style="padding-top: .58em; padding-bottom: .58em;"
 					on:click={() => goto(route.route)}>
 					<i class="{route.icon} me-1" />{route.title}
 				</div>

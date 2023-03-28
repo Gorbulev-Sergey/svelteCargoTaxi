@@ -11,7 +11,7 @@
 			<i class="fa-solid fa-angle-down ms-2" />
 		</div>
 	</button>
-	<div class="dropdown-menu bg-light border-0">
+	<div class="dropdown-menu bg-light border-0 shadow-sm">
 		<div class="d-flex flex-column w-100">
 			{#each titles as title, i}
 				<button
