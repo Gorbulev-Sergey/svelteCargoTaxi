@@ -46,10 +46,10 @@
 			{/if}
 		</div>
 
-		{#if phoneNumber.length == 10}
+		{#if phoneNumber.length == 10 && timeResendSMS == 60}
 			<button
 				id="sign-in-button"
-				class="btn btn-lg btn-dark text-light w-100 mb-2"
+				class="btn btn-dark text-light w-100 mb-2"
 				on:click={() => {
 					let interval = setInterval(() => {
 						timeResendSMS--;
@@ -81,9 +81,9 @@
 						.catch(error => {
 							console.log(error);
 						});
-				}}>{timeResendSMS == 60 ? 'Отправить смс с кодом' : `Отправить код через ${timeResendSMS} сек`}</button>
+				}}>{timeResendSMS == 60 ? 'Отправить смс с кодом' : `Повторная отправка смс через ${timeResendSMS} сек`}</button>
 		{:else}
-			<button id="sign-in-button" class="btn btn-dark text-light w-100 mb-2" disabled>Получить смс с кодом</button>
+			<button id="sign-in-button" class="btn btn-dark text-light w-100 mb-2" disabled>Отправить смс с кодом</button>
 		{/if}
 
 		<div class="input-group">
