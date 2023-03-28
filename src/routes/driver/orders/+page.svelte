@@ -196,7 +196,7 @@
 				<div class="mb-2">
 					{#if !order.status}
 						<button
-							class="btn btn-sm btn-dark text-light"
+							class="btn btn-sm btn-secondary text-light"
 							on:click|stopPropagation={async () => {
 								order.driver = $user.uid;
 								order.status = 'взят';
