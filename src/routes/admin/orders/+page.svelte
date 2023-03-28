@@ -169,7 +169,7 @@
 </script>
 
 <Layout pageTitle="Заказы">
-	<div class="d-flex justify-content-center align-items-center pb-2" slot="center">
+	<div class="d-flex flex-wrap justify-content-center align-items-center pb-2" slot="center">
 		<ButtonToggleSmall titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} _class="mx-1" />|
 		<ButtonToggleSmall titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} _class="mx-1" />|
 		<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} _class="mx-1" />|

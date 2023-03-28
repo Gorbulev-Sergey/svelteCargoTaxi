@@ -18,7 +18,7 @@
 </script>
 
 <Layout pageTitle="Новый заказ">
-	<div slot="nav">
+	<div class="d-flex gap-1" slot="nav">
 		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders')}>Отмена</button>
 		<button
 			class="btn btn-dark text-light"

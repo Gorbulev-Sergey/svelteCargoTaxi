@@ -16,8 +16,8 @@
 <Auth>
 	<Before>
 		<div class="sticky-top mb-3 bg-light">
-			<div class="d-flex justify-content-between align-items-center py-2">
-				<button class="btn btn-light bg-light text-dark border-0"><b>{@html pageTitle}</b></button>
+			<div class="d-flex justify-content-between align-items-center px-1 py-2">
+				<div class="btn btn-light bg-light text-nowrap text-dark border-0"><b>{@html pageTitle}</b></div>
 				<div class="d-flex align-items-center gap-1">
 					<slot name="nav" />
 					<button class="btn btn-light" data-bs-toggle="dropdown"><i class="fa-solid fa-bars" /></button>
