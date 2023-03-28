@@ -15,6 +15,9 @@
 		selectedOneManyDays,
 		user,
 	} from '$lib/scripts/storage';
+	import Layout from '$lib/components/admin/Layout/Layout.svelte';
+	import ButtonToggleSmall from '$lib/components/others/ButtonToggleSmall.svelte';
+	import DropdownSelectorSmall from '$lib/components/others/DropdownSelectorSmall.svelte';
 
 	Date.prototype.getWeek = function () {
 		let date = new Date(this.getTime());
@@ -165,41 +168,55 @@
 	});
 </script>
 
-{#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
-	<Order i={iForOrders(i)} {uid} {order} _class="rounded bg-light">
-		<div slot="nav" class="d-flex gap-1 flex-column align-items-end m-2">
-			<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
-				<i class="fa-regular fa-pen-to-square" />
-			</button>
-			<ConfirmDialog title="Удалить этот заказ?" onDelete={async () => remove(ref(db, `/orders/${uid}`))} />
-
-			<div style="display: contents">
-				<button class="btn btn-sm btn-light text-success" title="Cтатус" data-bs-toggle="dropdown">
-					<i class="fa-solid fa-sliders" />
+<Layout pageTitle="Заказы">
+	<div class="d-flex justify-content-center align-items-center pb-2" slot="center">
+		<ButtonToggleSmall titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} _class="mx-1" />|
+		<ButtonToggleSmall titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} _class="mx-1" />|
+		<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} _class="mx-1" />|
+		<DropdownSelectorSmall
+			titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
+			bind:selected={$selectedPrevTodayNext}
+			_class="mx-1" />
+	</div>
+	<div slot="nav">
+		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>
+	</div>
+	{#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
+		<Order i={iForOrders(i)} {uid} {order} _class="rounded bg-light">
+			<div slot="nav" class="d-flex gap-1 flex-column align-items-end m-2">
+				<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
+					<i class="fa-regular fa-pen-to-square" />
 				</button>
-				<div class="dropdown-menu text-center border-0 shadow-sm p-2">
-					<div class="d-flex flex-column justify-content-end gap-1">
-						{#if order.status}
-							<button
-								class="btn btn-sm btn-danger text-light w-100"
-								on:click|stopPropagation={async () => {
-									let newOrder = order;
-									newOrder.status = null;
-									update(ref(db, '/orders/' + uid), newOrder);
-								}}>Отменить заказ</button>
-						{/if}
-						{#if order.status != 'завершён'}
-							<button
-								class="btn btn-sm btn-success text-light w-100"
-								on:click|stopPropagation={async () => {
-									let newOrder = order;
-									newOrder.status = 'завершён';
-									update(ref(db, '/orders/' + uid), newOrder);
-								}}>Завершить заказ</button>
-						{/if}
+				<ConfirmDialog title="Удалить этот заказ?" onDelete={async () => remove(ref(db, `/orders/${uid}`))} />
+
+				<div style="display: contents">
+					<button class="btn btn-sm btn-light text-success" title="Cтатус" data-bs-toggle="dropdown">
+						<i class="fa-solid fa-sliders" />
+					</button>
+					<div class="dropdown-menu text-center border-0 shadow-sm p-2">
+						<div class="d-flex flex-column justify-content-end gap-1">
+							{#if order.status}
+								<button
+									class="btn btn-sm btn-danger text-light w-100"
+									on:click|stopPropagation={async () => {
+										let newOrder = order;
+										newOrder.status = null;
+										update(ref(db, '/orders/' + uid), newOrder);
+									}}>Отменить заказ</button>
+							{/if}
+							{#if order.status != 'завершён'}
+								<button
+									class="btn btn-sm btn-success text-light w-100"
+									on:click|stopPropagation={async () => {
+										let newOrder = order;
+										newOrder.status = 'завершён';
+										update(ref(db, '/orders/' + uid), newOrder);
+									}}>Завершить заказ</button>
+							{/if}
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</Order>
-{/each}
+		</Order>
+	{/each}
+</Layout>

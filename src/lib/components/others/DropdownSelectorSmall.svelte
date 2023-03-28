@@ -2,9 +2,10 @@
 	export let titles = new Array();
 	export let selected = 0;
 	export let onSelected = () => {};
+	export let _class = '';
 </script>
 
-<div class="d-inline-flex">
+<div class="d-inline-flex {_class}">
 	<div class="text-nowrap" style="cursor: pointer; user-select:none;" data-bs-toggle="dropdown">
 		<span>{titles[selected]}</span>
 		<i class="fa-solid fa-angle-down" />
