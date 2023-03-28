@@ -179,7 +179,7 @@
 			_class="mx-1" />
 	</div>
 	<div slot="nav">
-		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders/create')}>Создать</button>
+		<button class="btn btn-dark text-light" on:click={() => goto('/admin/orders/create')}>Создать</button>
 	</div>
 	{#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
 		<Order i={iForOrders(i)} {uid} {order} _class="rounded bg-light">

@@ -46,8 +46,8 @@
 				}
 			}}>Сохранить</button>
 	</div>
-	<div class="row gy-2 gx-3 bg-light rounded mt-1 px-1 pb-3">
-		<div class="col-lg-9">
+	<div class="container-fluid rounded bg-light my-4 my-sm-3 pb-3">
+		<div class="row gy-2 gx-3">
 			<div class="mb-1">
 				<div>что везти (товар):</div>
 				<input class="form-control" bind:value={order.product} />
