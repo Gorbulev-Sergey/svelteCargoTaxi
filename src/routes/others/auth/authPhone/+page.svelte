@@ -46,10 +46,10 @@
 			{/if}
 		</div>
 
-		{#if phoneNumber.length == 10 && timeResendSMS == 60}
+		{#if phoneNumber.length == 10}
 			<button
 				id="sign-in-button"
-				class="btn btn-dark text-light w-100 mb-2"
+				class="btn btn-dark text-light w-100 mb-2 {timeResendSMS == 60 ? '' : 'disabled'} "
 				on:click={() => {
 					let interval = setInterval(() => {
 						timeResendSMS--;
