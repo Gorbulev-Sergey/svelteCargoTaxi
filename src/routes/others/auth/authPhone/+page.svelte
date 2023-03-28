@@ -81,7 +81,7 @@
 						.catch(error => {
 							console.log(error);
 						});
-				}}>{timeResendSMS == 60 ? 'Отправить смс с кодом' : `Повторная отправка смс через ${timeResendSMS} сек`}</button>
+				}}>{timeResendSMS == 60 ? 'Отправить смс с кодом' : `Повторная отправка через ${timeResendSMS} сек`}</button>
 		{:else}
 			<button id="sign-in-button" class="btn btn-dark text-light w-100 mb-2" disabled>Отправить смс с кодом</button>
 		{/if}
