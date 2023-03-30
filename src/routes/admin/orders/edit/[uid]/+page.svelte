@@ -4,7 +4,6 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Layout from '$lib/components/admin/Layout/Layout.svelte';
-	import PageLayout from '$lib/components/PageLayout.svelte';
 	import { Order } from '$lib/models/Order';
 	import { db } from '$lib/scripts/firebase';
 	import { onValue, push, ref, set } from 'firebase/database';

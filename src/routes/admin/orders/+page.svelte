@@ -183,50 +183,52 @@
 	</div>
 	{#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
 		<Order i={iForOrders(i)} {uid} {order} _class="rounded bg-light">
-			<div slot="nav" class="d-flex gap-1 flex-column align-items-end m-2">
-				<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
-					<i class="fa-regular fa-pen-to-square" />
-				</button>
-				<ConfirmDialog title="Удалить этот заказ?" onDelete={async () => remove(ref(db, `/orders/${uid}`))} />
-
-				<div style="display: contents">
-					<button class="btn btn-sm btn-light text-success" title="Cтатус" data-bs-toggle="dropdown">
-						<i class="fa-solid fa-sliders" />
+			<div slot="nav" class="d-flex gap-1 flex-column justify-content-between align-items-end m-2">
+				<div class=" d-flex flex-column">
+					<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
+						<i class="fa-regular fa-pen-to-square" />
 					</button>
-					<div class="dropdown-menu text-center border-0 shadow-sm p-2">
-						<div class="d-flex flex-column justify-content-end gap-1">
-							<span>Cтатусы:</span>
-							<button
-								class="btn btn-sm btn-secondary text-light w-100 text-end"
-								on:click|stopPropagation={async () => {
-									let newOrder = order;
-									newOrder.status = 'взят';
-									update(ref(db, '/orders/' + uid), newOrder);
-								}}>Взят</button>
-							<button
-								class="btn btn-sm btn-info text-light w-100 text-end"
-								on:click|stopPropagation={async () => {
-									let newOrder = order;
-									newOrder.status = 'едет';
-									update(ref(db, '/orders/' + uid), newOrder);
-								}}>Едет</button>
-							<button
-								class="btn btn-sm btn-success text-light w-100 text-end"
-								on:click|stopPropagation={async () => {
-									let newOrder = order;
-									newOrder.status = 'завершён';
-									update(ref(db, '/orders/' + uid), newOrder);
-								}}>Завершён</button>
-							<button
-								class="btn btn-sm btn-danger text-light w-100 text-end"
-								on:click|stopPropagation={async () => {
-									let newOrder = order;
-									newOrder.status = null;
-									update(ref(db, '/orders/' + uid), newOrder);
-								}}>Удалить статус</button>
+
+					<div style="display: contents">
+						<button class="btn btn-sm btn-light text-dark" title="Cтатус" data-bs-toggle="dropdown">
+							<i class="fa-solid fa-traffic-light" />
+						</button>
+						<div class="dropdown-menu text-center border-0 shadow-sm p-2">
+							<div class="d-flex flex-column justify-content-end gap-1">
+								<span>Cтатусы:</span>
+								<button
+									class="btn btn-sm btn-secondary text-light w-100 text-end"
+									on:click|stopPropagation={async () => {
+										let newOrder = order;
+										newOrder.status = 'взят';
+										update(ref(db, '/orders/' + uid), newOrder);
+									}}>Взят</button>
+								<button
+									class="btn btn-sm btn-info text-light w-100 text-end"
+									on:click|stopPropagation={async () => {
+										let newOrder = order;
+										newOrder.status = 'едет';
+										update(ref(db, '/orders/' + uid), newOrder);
+									}}>Едет</button>
+								<button
+									class="btn btn-sm btn-success text-light w-100 text-end"
+									on:click|stopPropagation={async () => {
+										let newOrder = order;
+										newOrder.status = 'завершён';
+										update(ref(db, '/orders/' + uid), newOrder);
+									}}>Завершён</button>
+								<button
+									class="btn btn-sm btn-danger text-light w-100 text-end"
+									on:click|stopPropagation={async () => {
+										let newOrder = order;
+										newOrder.status = null;
+										update(ref(db, '/orders/' + uid), newOrder);
+									}}>Удалить статус</button>
+							</div>
 						</div>
 					</div>
 				</div>
+				<ConfirmDialog title="Удалить этот заказ?" onDelete={async () => remove(ref(db, `/orders/${uid}`))} />
 			</div>
 		</Order>
 	{/each}
