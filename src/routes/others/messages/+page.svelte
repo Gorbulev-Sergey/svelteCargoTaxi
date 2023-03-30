@@ -2,7 +2,6 @@
 	import { messaging } from '$lib/scripts/firebase.js';
 	import PageTitle from '$lib/components/PageTitle.svelte';
 	import { getMessaging, getToken } from 'firebase/messaging';
-	import PageLayout from '$lib/components/PageLayout.svelte';
 	import Alert from '$lib/components/others/Alert.svelte';
 	import { text } from 'svelte/internal';
 	import { sendFCM } from '$lib/scripts/firebaseCloudMessage';
