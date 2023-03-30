@@ -6,6 +6,8 @@
 	import { db } from '$lib/scripts/firebase';
 	import { push, ref } from 'firebase/database';
 	import Layout from '$lib/components/admin/Layout/Layout.svelte';
+	import Before from '$lib/components/others/breakepoints/Before.svelte';
+	import After from '$lib/components/others/breakepoints/After.svelte';
 
 	let order = new Order();
 	let whenTake = {
@@ -20,7 +22,10 @@
 
 <Layout pageTitle="Новый заказ">
 	<div class="d-flex align-items-center gap-1" slot="nav">
-		<button class="btn btn-sm btn-light text-dark" on:click={() => goto('/admin/orders')} title="Отмена">Отмена</button>
+		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders')} title="Отмена">
+			<Before><i class="fa-solid fa-chevron-left" /></Before>
+			<After>Отмена</After>
+		</button>
 		<button
 			class="btn btn-dark text-light"
 			on:click={() => {

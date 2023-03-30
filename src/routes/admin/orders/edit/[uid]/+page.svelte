@@ -4,6 +4,8 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Layout from '$lib/components/admin/Layout/Layout.svelte';
+	import After from '$lib/components/others/breakepoints/After.svelte';
+	import Before from '$lib/components/others/breakepoints/Before.svelte';
 	import { Order } from '$lib/models/Order';
 	import { db } from '$lib/scripts/firebase';
 	import { onValue, push, ref, set } from 'firebase/database';
@@ -32,7 +34,9 @@
 
 <Layout pageTitle="Редактировать">
 	<div class="d-flex align-items-center gap-1" slot="nav">
-		<button class="btn btn-sm btn-light text-dark" on:click={() => goto('/admin/orders')} title="Отмена">Отмена</button>
+		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders')} title="Отмена">
+			<Before><i class="fa-solid fa-chevron-left" /></Before>
+			<After>Отмена</After></button>
 		<button
 			class="btn btn-dark text-light"
 			on:click={() => {
