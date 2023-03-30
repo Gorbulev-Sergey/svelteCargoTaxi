@@ -31,7 +31,9 @@
 					</div>
 				</div>
 			</div>
-			<slot name="center" />
+			<div class=" pb-2">
+				<slot name="center" />
+			</div>
 		</div>
 		<slot />
 	</Before>

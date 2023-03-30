@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { text } from 'svelte/internal';
 	import { sendFCM } from '$lib/scripts/firebaseCloudMessage';
 	import { goto } from '$app/navigation';
 	import { Order } from '$lib/models/Order';
@@ -18,8 +19,8 @@
 </script>
 
 <Layout pageTitle="Новый заказ">
-	<div class="d-flex gap-1" slot="nav">
-		<button class="btn btn-light text-dark" on:click={() => goto('/admin/orders')}>Отмена</button>
+	<div class="d-flex align-items-center gap-1" slot="nav">
+		<button class="btn btn-sm btn-light text-dark" on:click={() => goto('/admin/orders')} title="Отмена">Отмена</button>
 		<button
 			class="btn btn-dark text-light"
 			on:click={() => {
