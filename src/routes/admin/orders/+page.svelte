@@ -13,7 +13,6 @@
 		selectedTakeGive,
 		ordersCount,
 		selectedOneManyDays,
-		user,
 	} from '$lib/scripts/storage';
 	import Layout from '$lib/components/admin/Layout/Layout.svelte';
 	import ButtonToggleSmall from '$lib/components/others/ButtonToggleSmall.svelte';
