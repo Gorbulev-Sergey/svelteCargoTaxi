@@ -9,6 +9,8 @@
 	let code = '';
 	let userName = '';
 	let phoneNumber = '';
+	let error = '';
+	let toggleLoginRegistr = true;
 
 	/**
 	 * @type {import("@firebase/auth").ApplicationVerifier}
@@ -26,7 +28,9 @@
 			<h3 class="mb-1">Добро пожаловать!</h3>
 			<div class="text-muted">Введите регистрационные данные</div>
 		</div>
-		<input class="form-control text-center mb-2" placeholder="Ваше имя (или логин)" bind:value={userName} />
+		{#if toggleLoginRegistr}
+			<input class="form-control text-center mb-2" placeholder="Ваше имя (или логин)" bind:value={userName} />
+		{/if}
 		<div class="input-group mb-2">
 			<span class="input-group-text">+7</span>
 			{#if userName.trim().length > 0}
@@ -51,6 +55,7 @@
 				id="sign-in-button"
 				class="btn btn-dark text-light w-100 mb-2 {timeResendSMS == 60 ? '' : 'disabled'} "
 				on:click={() => {
+					error = '';
 					let interval = setInterval(() => {
 						timeResendSMS--;
 					}, 1000);
@@ -78,8 +83,12 @@
 
 							confirmationResult = confResult;
 						})
-						.catch(error => {
-							console.log(error);
+						.catch(er => {
+							switch (er.code) {
+								case 'auth/too-many-requests':
+									error = 'Слишком много запросов. Попробуйте повторить попытку чуть позже.';
+									break;
+							}
 						});
 				}}>{timeResendSMS == 60 ? 'Отправить смс с кодом' : `Повторная отправка через ${timeResendSMS} сек`}</button>
 		{:else}
@@ -112,14 +121,31 @@
 									console.log(user);
 									goto($returnUrl);
 								})
-								.catch(error => {
-									console.log(error);
+								.catch(er => {
+									switch (er.code) {
+										case 'auth/invalid-verification-code':
+											error = 'Введён неправильный код. Проверьте, пожалуйста, соответствует ли введённый вами код коду из смс.';
+											break;
+									}
 								});
-						}
+						} else if (code.length < 6) error = '';
 					}} />
 			{:else}
 				<input type="tel" class="form-control text-center" placeholder="Введите полученный код" disabled />
 			{/if}
 		</div>
+
+		<div class="mt-2">
+			<button
+				class="btn btn-sm btn-link"
+				on:click={() => {
+					toggleLoginRegistr = !toggleLoginRegistr;
+					userName = toggleLoginRegistr ? '' : 'Имя';
+				}}>{toggleLoginRegistr ? 'Вход' : 'Регистрация'}</button>
+		</div>
+
+		{#if error != ''}
+			<div class="text-danger mt-3">{error}</div>
+		{/if}
 	</div>
 </div>

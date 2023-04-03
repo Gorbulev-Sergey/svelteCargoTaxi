@@ -171,8 +171,8 @@
 <Layout pageTitle="Заказы">
 	<div class="d-flex flex-wrap justify-content-center align-items-center" slot="center">
 		<ButtonToggleSmall titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} _class="mx-1" />|
-		<ButtonToggleSmall titles={['все', 'однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} _class="mx-1" />|
-		<ButtonToggleSmall titles={['создан', 'забрать', 'доставить']} bind:selected={$selectedTakeGive} _class="mx-1" />|
+		<ButtonToggleSmall titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} _class="mx-1" />|
+		<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} _class="mx-1" />|
 		<DropdownSelectorSmall
 			titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
 			bind:selected={$selectedPrevTodayNext}
