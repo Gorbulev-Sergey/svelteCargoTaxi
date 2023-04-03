@@ -13,6 +13,7 @@
 		selectedTakeGive,
 		ordersCount,
 		selectedOneManyDays,
+		driversCount,
 	} from '$lib/scripts/storage';
 	import Layout from '$lib/components/admin/Layout/Layout.svelte';
 	import ButtonToggleSmall from '$lib/components/others/ButtonToggleSmall.svelte';
@@ -28,6 +29,7 @@
 	};
 
 	$: orders = new Object();
+	let drivers = new Object();
 	let hasWeek = false;
 	let hasDate = true;
 	let selectedDate = new Date();
@@ -49,12 +51,14 @@
 		}
 		switch ($selectedOneManyDays) {
 			case 0:
+				return Object.fromEntries(Object.entries(ordersSorted));
+			case 1:
 				return Object.fromEntries(
 					Object.entries(ordersSorted).filter(
 						([k, v]) => v.whenTake && v.whenGive && new Date(v.whenTake).toDateString() == new Date(v.whenGive).toDateString(),
 					),
 				);
-			case 1:
+			case 2:
 				return Object.fromEntries(
 					Object.entries(ordersSorted).filter(
 						([k, v]) => v.whenTake && v.whenGive && new Date(v.whenTake).toDateString() != new Date(v.whenGive).toDateString(),
@@ -165,14 +169,20 @@
 				$ordersCount = Object.keys(orders).length;
 			}
 		});
+		onValue(ref(db, '/drivers'), s => {
+			if (s.exists()) {
+				drivers = s.val();
+				$driversCount = Object.keys(drivers).length;
+			}
+		});
 	});
 </script>
 
 <Layout pageTitle="Заказы">
 	<div class="d-flex flex-wrap justify-content-center align-items-center" slot="center">
 		<ButtonToggleSmall titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} _class="mx-1" />|
-		<ButtonToggleSmall titles={['все', 'однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} _class="mx-1" />|
-		<ButtonToggleSmall titles={['создан', 'забрать', 'доставить']} bind:selected={$selectedTakeGive} _class="mx-1" />|
+		<DropdownSelectorSmall titles={['все', 'однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} _class="mx-1" />|
+		<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} _class="mx-1" />|
 		<DropdownSelectorSmall
 			titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
 			bind:selected={$selectedPrevTodayNext}
@@ -183,9 +193,13 @@
 	</div>
 	{#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
 		<Order i={iForOrders(i)} {uid} {order} _class="rounded bg-light">
-			<div>
-				{order.driver}
-			</div>
+			{#if order.driver}
+				<div class="badge bg-dark">
+					водитель: {Object.entries(drivers).find(([k, v]) => k == order.driver)[1].name},
+					{Object.entries(drivers).find(d => d[0] == order.driver)[1].phone}
+				</div>
+			{/if}
+
 			<div slot="nav" class="d-flex gap-1 flex-column justify-content-between align-items-end m-2">
 				<div class=" d-flex flex-column">
 					<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
@@ -224,6 +238,7 @@
 									on:click|stopPropagation={async () => {
 										let newOrder = order;
 										newOrder.status = null;
+										newOrder.driver = null;
 										update(ref(db, '/orders/' + uid), newOrder);
 									}}>Удалить статус</button>
 							</div>
