@@ -2,8 +2,13 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 import { getMessaging, isSupported } from 'firebase/messaging';
 import { getAuth } from 'firebase/auth';
+//import admin from 'firebase-admin';
+
+// @ts-ignore
+//let serviceAccount = require('firebase-adminsdk-4vovk@sveltetaxi.iam.gserviceaccount.com');
 
 const firebaseConfig = {
+	//credential: admin.credential.cert(serviceAccount),
 	apiKey: 'AIzaSyBHEhtO7AtePj-X045LXPL4XS8AC_FDB2Q',
 	authDomain: 'sveltetaxi.firebaseapp.com',
 	databaseURL: 'https://sveltetaxi-default-rtdb.firebaseio.com',
@@ -25,5 +30,3 @@ export let messaging;
 isSupported().then(r => {
 	if (r) messaging = getMessaging(app);
 });
-//export let messaging = isSupported().then(r => getMessaging(app));
-//export let messaging = (await isSupported()) ? getMessaging(app) : null;

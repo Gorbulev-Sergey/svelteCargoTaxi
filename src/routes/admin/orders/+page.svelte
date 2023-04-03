@@ -18,6 +18,7 @@
 	import ButtonToggleSmall from '$lib/components/others/ButtonToggleSmall.svelte';
 	import DropdownSelectorSmall from '$lib/components/others/DropdownSelectorSmall.svelte';
 
+	// @ts-ignore
 	Date.prototype.getWeek = function () {
 		let date = new Date(this.getTime());
 		date.setHours(0, 0, 0, 0);
@@ -182,12 +183,14 @@
 	</div>
 	{#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
 		<Order i={iForOrders(i)} {uid} {order} _class="rounded bg-light">
+			<div>
+				{order.driver}
+			</div>
 			<div slot="nav" class="d-flex gap-1 flex-column justify-content-between align-items-end m-2">
 				<div class=" d-flex flex-column">
 					<button class="btn btn-sm btn-light text-dark" title="редактировать" on:click={() => goto(`/admin/orders/edit/${uid}`)}>
 						<i class="fa-regular fa-pen-to-square" />
 					</button>
-
 					<div style="display: contents">
 						<button class="btn btn-sm btn-light text-dark" title="Cтатус" data-bs-toggle="dropdown">
 							<i class="fa-solid fa-traffic-light" />
