@@ -195,7 +195,7 @@
 		<Order i={iForOrders(i)} {uid} {order} _class="rounded bg-light">
 			{#if order.driver}
 				<div class="badge bg-dark">
-					водитель: {Object.entries(drivers).find(([k, v]) => k == order.driver)[1].name},
+					{Object.entries(drivers).find(([k, v]) => k == order.driver)[1].name},
 					{Object.entries(drivers).find(d => d[0] == order.driver)[1].phone}
 				</div>
 			{/if}
