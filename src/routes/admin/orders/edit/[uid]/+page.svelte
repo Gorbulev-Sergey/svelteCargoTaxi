@@ -29,6 +29,10 @@
 				};
 			}
 		});
+		ymaps.ready(() => {
+			new ymaps.SuggestView('searchFrom');
+			new ymaps.SuggestView('searchTo');
+		});
 	});
 </script>
 
@@ -59,14 +63,30 @@
 				<div class="mb-1">
 					<div>откуда:</div>
 					<div class="input-group">
-						<input class="form-control" bind:value={order.from} />
+						<input
+							id="searchFrom"
+							class="form-control"
+							bind:value={order.from}
+							on:focusout={async function () {
+								setTimeout(() => {
+									order.from = this.value;
+								}, 1000);
+							}} />
 						<button class="btn btn-dark text-light"><i class="fa-solid fa-earth-americas" /></button>
 					</div>
 				</div>
 				<div class="mb-1">
 					<div>куда:</div>
 					<div class="input-group">
-						<input class="form-control" bind:value={order.to} />
+						<input
+							id="searchTo"
+							class="form-control"
+							bind:value={order.to}
+							on:focusout={async function () {
+								setTimeout(() => {
+									order.to = this.value;
+								}, 1000);
+							}} />
 						<button class="btn btn-dark text-light"><i class="fa-solid fa-earth-americas" /></button>
 					</div>
 				</div>
