@@ -38,7 +38,7 @@
 		let ordersSelected = new Object();
 		switch ($selectedAllMy) {
 			case 0:
-				ordersSelected = Object.fromEntries(Object.entries(orders).filter(o => o[1].driver == null));
+				ordersSelected = Object.fromEntries(Object.entries(orders).filter(o => o[1].driver == null || o[1].driver == $user.uid));
 				break;
 			case 1:
 				ordersSelected = Object.fromEntries(Object.entries(orders).filter(o => o[1].driver == $user.uid));
@@ -58,12 +58,14 @@
 		}
 		switch ($selectedOneManyDays) {
 			case 0:
+				return Object.fromEntries(Object.entries(ordersSelected));
+			case 1:
 				return Object.fromEntries(
 					Object.entries(ordersSelected).filter(
 						([k, v]) => v.whenTake && v.whenGive && new Date(v.whenTake).toDateString() == new Date(v.whenGive).toDateString(),
 					),
 				);
-			case 1:
+			case 2:
 				return Object.fromEntries(
 					Object.entries(ordersSelected).filter(
 						([k, v]) => v.whenTake && v.whenGive && new Date(v.whenTake).toDateString() != new Date(v.whenGive).toDateString(),
@@ -181,7 +183,7 @@
 	<div class="d-flex flex-wrap justify-content-center align-items-center gap-1 py-1">
 		<ButtonToggleSmall titles={['все заказы', 'только мои']} bind:selected={$selectedAllMy} />|
 		<ButtonToggleSmall titles={['сн. новые', 'сн. старые']} bind:selected={$selectedNewOld} />|
-		<ButtonToggleSmall titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />|
+		<DropdownSelectorSmall titles={['все', 'однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />|
 		<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />|
 		<DropdownSelectorSmall
 			titles={['прошл. месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'след. месяц']}
