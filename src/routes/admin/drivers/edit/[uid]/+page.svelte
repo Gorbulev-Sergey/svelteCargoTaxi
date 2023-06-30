@@ -15,7 +15,7 @@
 	});
 </script>
 
-<Layout pageTitle="Редактировать данные водителя">
+<Layout pageTitle="Редактировать водителя">
 	<div slot="nav">
 		<div class="d-flex align-items-center">
 			<button class="btn btn-light text-dark me-1" on:click={() => goto('/admin/drivers')}>Отмена</button>
@@ -27,12 +27,12 @@
 				}}>Сохранить</button>
 		</div>
 	</div>
-	<div class="input-group mb-3">
-		<div class="input-group-text">ФИО</div>
-		<input class="form-control" bind:value={driver.name} />
-	</div>
-	<div class="input-group mb-3">
-		<div class="input-group-text">Телефон</div>
+
+	<div class="mx-2 mx-sm-0">
+		<div>ФИО:</div>
+		<input class="form-control mb-2" bind:value={driver.name} />
+
+		<div>Телефон:</div>
 		<input class="form-control" bind:value={driver.phone} />
 	</div>
 </Layout>
