@@ -25,3 +25,4 @@ export let selectedNewOldDriver = writable(0);
 export let selectedPrevTodayNextDriver = writable(2);
 export let selectedOneManyDaysDriver = writable(0);
 export let selectedTakeGiveDriver = writable(0);
+export let selectedAllMy = writable(0);

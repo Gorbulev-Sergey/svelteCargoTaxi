@@ -5,16 +5,16 @@
 	import { onValue, ref, update } from 'firebase/database';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { orderSelected, user } from '$lib/scripts/storage';
 	import PageTitle from '$lib/components/driver/PageTitle.svelte';
-	import ButtonToggle from '$lib/components/others/ButtonToggle.svelte';
 	import {
+		user,
+		orderSelected,
 		selectedNewOldDriver as selectedNewOld,
 		selectedPrevTodayNextDriver as selectedPrevTodayNext,
 		selectedTakeGiveDriver as selectedTakeGive,
 		selectedOneManyDaysDriver as selectedOneManyDays,
+		selectedAllMy,
 	} from '$lib/scripts/storage';
-	import DropdownSelector from '$lib/components/others/DropdownSelector.svelte';
 	import ButtonToggleSmall from '$lib/components/others/ButtonToggleSmall.svelte';
 	import DropdownSelectorSmall from '$lib/components/others/DropdownSelectorSmall.svelte';
 
@@ -35,29 +35,37 @@
 	$: iForOrders = (/** @type {number} */ i) => ($selectedNewOld == 0 ? Object.keys(ordersFiltered()).length - i : i + 1);
 
 	$: ordersOneManyDays = () => {
-		let ordersSorted = Object.fromEntries(Object.entries(orders).filter(o => o[1].driver == $user));
+		let ordersSelected = new Object();
+		switch ($selectedAllMy) {
+			case 0:
+				ordersSelected = Object.fromEntries(Object.entries(orders).filter(o => o[1].driver == null));
+				break;
+			case 1:
+				ordersSelected = Object.fromEntries(Object.entries(orders).filter(o => o[1].driver == $user.uid));
+				break;
+		}
 		switch ($selectedNewOld) {
 			case 0:
-				ordersSorted = Object.fromEntries(
-					Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)),
+				ordersSelected = Object.fromEntries(
+					Object.entries(ordersSelected).sort(([k1, v1], [k2, v2]) => new Date(v2.created) - new Date(v1.created)),
 				);
 				break;
 			case 1:
-				ordersSorted = Object.fromEntries(
-					Object.entries(orders).sort(([k1, v1], [k2, v2]) => new Date(v1.created) - new Date(v2.created)),
+				ordersSelected = Object.fromEntries(
+					Object.entries(ordersSelected).sort(([k1, v1], [k2, v2]) => new Date(v1.created) - new Date(v2.created)),
 				);
 				break;
 		}
 		switch ($selectedOneManyDays) {
 			case 0:
 				return Object.fromEntries(
-					Object.entries(ordersSorted).filter(
+					Object.entries(ordersSelected).filter(
 						([k, v]) => v.whenTake && v.whenGive && new Date(v.whenTake).toDateString() == new Date(v.whenGive).toDateString(),
 					),
 				);
 			case 1:
 				return Object.fromEntries(
-					Object.entries(ordersSorted).filter(
+					Object.entries(ordersSelected).filter(
 						([k, v]) => v.whenTake && v.whenGive && new Date(v.whenTake).toDateString() != new Date(v.whenGive).toDateString(),
 					),
 				);
@@ -171,6 +179,7 @@
 
 <PageTitle>
 	<div class="d-flex flex-wrap justify-content-center align-items-center gap-1 py-1">
+		<ButtonToggleSmall titles={['все заказы', 'только мои']} bind:selected={$selectedAllMy} />|
 		<ButtonToggleSmall titles={['сн. новые', 'сн. старые']} bind:selected={$selectedNewOld} />|
 		<ButtonToggleSmall titles={['однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />|
 		<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />|
