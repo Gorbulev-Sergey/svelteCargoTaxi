@@ -7,7 +7,7 @@
 	export let pageTitle = '';
 	$: routes = [
 		{ title: 'Заказы', url: '/admin/orders', pin: '' },
-		{ title: 'Водители', url: '', pin: '' },
+		{ title: 'Водители', url: '/admin/drivers', pin: '' },
 		{ title: 'Автомобили', url: '', pin: '12' },
 		{ title: 'Статистика', url: '', pin: '' },
 	];
@@ -45,14 +45,13 @@
 				</a>
 				<div class="mt-2">
 					{#each routes as route}
-						<button class="btn btn-light text-dark text-start w-100 rounded-0" on:click={() => goto(route.url)}
-							>{route.title}</button>
+						<a href={route.url} class="btn btn-light text-dark text-start w-100 rounded-0">{route.title}</a>
 					{/each}
 				</div>
 			</div>
 			<div class="flex-grow-1 d-flex flex-column gap-3">
 				<div class="sticky-top d-flex justify-content-between align-items-center bg-light p-2">
-					<h4 class="mx-2 my-0">{@html pageTitle}</h4>
+					<h4 class="mx-2 py-1 my-0">{@html pageTitle}</h4>
 					<slot name="center" />
 					<slot name="nav" />
 				</div>
