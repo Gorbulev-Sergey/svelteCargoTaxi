@@ -17,6 +17,7 @@
 	} from '$lib/scripts/storage';
 	import ButtonToggleSmall from '$lib/components/others/ButtonToggleSmall.svelte';
 	import DropdownSelectorSmall from '$lib/components/others/DropdownSelectorSmall.svelte';
+	import ButtonToggleManySmall from '$lib/components/others/ButtonToggleManySmall.svelte';
 
 	Date.prototype.getWeek = function () {
 		let date = new Date(this.getTime());
@@ -183,7 +184,7 @@
 	<div class="d-flex flex-wrap justify-content-center align-items-center gap-1 py-1">
 		<ButtonToggleSmall titles={['все заказы', 'только мои']} bind:selected={$selectedAllMy} />|
 		<ButtonToggleSmall titles={['сн. новые', 'сн. старые']} bind:selected={$selectedNewOld} />|
-		<DropdownSelectorSmall titles={['все', 'однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />|
+		<ButtonToggleManySmall titles={['все', 'однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} />|
 		<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} />|
 		<DropdownSelectorSmall
 			titles={['прошл. месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'след. месяц']}

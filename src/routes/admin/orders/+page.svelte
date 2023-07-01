@@ -18,6 +18,7 @@
 	import Layout from '$lib/components/admin/Layout/Layout.svelte';
 	import ButtonToggleSmall from '$lib/components/others/ButtonToggleSmall.svelte';
 	import DropdownSelectorSmall from '$lib/components/others/DropdownSelectorSmall.svelte';
+	import ButtonToggleManySmall from '$lib/components/others/ButtonToggleManySmall.svelte';
 
 	// @ts-ignore
 	Date.prototype.getWeek = function () {
@@ -163,16 +164,16 @@
 	};
 
 	onMount(async () => {
-		onValue(ref(db, '/orders'), s => {
-			if (s.exists()) {
-				orders = s.val();
-				$ordersCount = Object.keys(orders).length;
-			}
-		});
 		onValue(ref(db, '/drivers'), s => {
 			if (s.exists()) {
 				drivers = s.val();
 				$driversCount = Object.keys(drivers).length;
+			}
+		});
+		onValue(ref(db, '/orders'), s => {
+			if (s.exists()) {
+				orders = s.val();
+				$ordersCount = Object.keys(orders).length;
 			}
 		});
 	});
@@ -181,7 +182,7 @@
 <Layout pageTitle="Заказы">
 	<div class="d-flex flex-wrap justify-content-center align-items-center" slot="center">
 		<ButtonToggleSmall titles={['сначала новые', 'сначала старые']} bind:selected={$selectedNewOld} _class="mx-1" />|
-		<DropdownSelectorSmall titles={['все', 'однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} _class="mx-1" />|
+		<ButtonToggleManySmall titles={['все', 'однодневные', 'многодневные']} bind:selected={$selectedOneManyDays} _class="mx-1" />|
 		<ButtonToggleSmall titles={['забрать', 'доставить']} bind:selected={$selectedTakeGive} _class="mx-1" />|
 		<DropdownSelectorSmall
 			titles={['прошлый месяц', 'вчера', 'сегодня', 'завтра', 'эта неделя', 'этот месяц', 'следующий месяц']}
