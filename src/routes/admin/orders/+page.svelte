@@ -28,8 +28,8 @@
 		return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7);
 	};
 
-	$: orders = new Object();
-	let drivers = new Object();
+	$: orders = {};
+	$: drivers = {};
 	let hasWeek = false;
 	let hasDate = true;
 	let selectedDate = new Date();
@@ -195,7 +195,7 @@
 		<Order i={iForOrders(i)} {uid} {order} _class="rounded bg-light">
 			{#if order.driver}
 				<div class="badge bg-dark">
-					{Object.entries(drivers).find(([k, v]) => k == order.driver)[1].name},
+					{Object.entries(drivers).find(d => d[0] == order.driver)[1].name},
 					{Object.entries(drivers).find(d => d[0] == order.driver)[1].phone}
 				</div>
 			{/if}
