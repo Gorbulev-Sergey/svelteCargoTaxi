@@ -39,14 +39,16 @@
 	</Before>
 	<After>
 		<div class="d-flex align-items-start">
-			<div class="sticky-top bg-light" style="width: 15em; min-height: 100vh;">
-				<a href="/admin/orders">
+			<div class="sticky-top bg-light" style="width: 11em; min-height: 100vh;">
+				<div class="d-flex w-100 justify-content-center">
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<img
-						class="w-100"
-						style="filter: blur(.1px) contrast(145%)"
+						class="m-2"
+						style="filter: blur(.1px) contrast(145%); cursor:pointer; width: 90%"
 						src="https://sun9-68.userapi.com/JMNL26HgHKZeSqtog_oujmPQwE1glD6Njf02_g/mdS7yp5Eq9o.jpg"
-						alt="" />
-				</a>
+						alt=""
+						on:click={() => goto('/admin/orders')} />
+				</div>
 				<div class="mt-2">
 					{#each routes as route}
 						<a href={route.url} class="btn btn-light text-dark text-start w-100 rounded-0">
