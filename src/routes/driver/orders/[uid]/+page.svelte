@@ -28,7 +28,7 @@
 			<button
 				class="btn btn-sm btn-danger text-light"
 				on:click|stopPropagation={async () => {
-					order.driver = null;
+					order.driver = '';
 					order.status = null;
 					update(ref(db, '/orders/' + $page.params.uid), order);
 					goto('/driver/orders');
