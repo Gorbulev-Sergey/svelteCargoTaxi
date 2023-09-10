@@ -6,17 +6,17 @@
 
 	export let pageTitle = '';
 	$: routes = [
-		{ title: 'Заказы', url: '/admin/orders', pin: '' },
-		{ title: 'Водители', url: '/admin/drivers', pin: '' },
-		{ title: 'Автомобили', url: '', pin: '12' },
-		{ title: 'Статистика', url: '', pin: '' },
+		{ title: 'Заказы', url: '/admin/orders', pin: '', icon: 'fa-solid fa-clipboard-list' },
+		{ title: 'Водители', url: '/admin/drivers', pin: '', icon: 'fa-solid fa-users' },
+		{ title: 'Автомобили', url: '', pin: '12', icon: 'fa-solid fa-truck' },
+		{ title: 'Статистика', url: '', pin: '', icon: 'fa-solid fa-circle-info' },
 	];
 </script>
 
 <Auth>
 	<Before>
-		<div class="sticky-top mb-3 bg-light">
-			<div class="d-flex justify-content-between align-items-center px-1 py-2">
+		<div class="sticky-top mb-3 bg-light shadow-sm">
+			<div class="d-flex justify-content-between align-items-center px-1 py-2 ">
 				<div class="btn btn-light bg-light text-nowrap text-dark border-0"><b>{@html pageTitle}</b></div>
 				<div class="d-flex align-items-center gap-1">
 					<slot name="nav" />
@@ -31,7 +31,7 @@
 					</div>
 				</div>
 			</div>
-			<div class=" pb-2">
+			<div class="pb-2">
 				<slot name="center" />
 			</div>
 		</div>
@@ -41,16 +41,27 @@
 		<div class="d-flex align-items-start">
 			<div class="sticky-top bg-light" style="width: 15em; min-height: 100vh;">
 				<a href="/admin/orders">
-					<img class="w-100" src="https://sun9-68.userapi.com/JMNL26HgHKZeSqtog_oujmPQwE1glD6Njf02_g/mdS7yp5Eq9o.jpg" alt="" />
+					<img
+						class="w-100"
+						style="filter: blur(.1px) contrast(145%)"
+						src="https://sun9-68.userapi.com/JMNL26HgHKZeSqtog_oujmPQwE1glD6Njf02_g/mdS7yp5Eq9o.jpg"
+						alt="" />
 				</a>
 				<div class="mt-2">
 					{#each routes as route}
-						<a href={route.url} class="btn btn-light text-dark text-start w-100 rounded-0">{route.title}</a>
+						<a href={route.url} class="btn btn-light text-dark text-start w-100 rounded-0">
+							<div class="d-flex align-items-center gap-1">
+								{#if route.icon}
+									<i class="{route.icon} text-center" style="min-width:1.6em; font-size:1.1em" />
+								{/if}
+								{route.title}
+							</div>
+						</a>
 					{/each}
 				</div>
 			</div>
 			<div class="flex-grow-1 d-flex flex-column gap-3">
-				<div class="sticky-top d-flex justify-content-between align-items-center bg-light p-2">
+				<div class="sticky-top d-flex justify-content-between align-items-center bg-light p-2 shadow-sm">
 					<h4 class="mx-2 py-1 my-0">{@html pageTitle}</h4>
 					<slot name="center" />
 					<slot name="nav" />

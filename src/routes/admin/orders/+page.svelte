@@ -193,7 +193,7 @@
 		<button class="btn btn-dark text-light" on:click={() => goto('/admin/orders/create')}>Создать</button>
 	</div>
 	{#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
-		<Order i={iForOrders(i)} {uid} {order} _class="rounded bg-light">
+		<Order i={iForOrders(i)} {uid} {order} _class="rounded bg-light shadow-sm">
 			{#if order.driver}
 				<div class="badge bg-dark">
 					{Object.entries(drivers).find(d => d[0] == order.driver)[1].name},
