@@ -28,11 +28,10 @@
 			<button
 				class="btn btn-sm btn-danger text-light"
 				on:click|stopPropagation={async () => {
-					remove(ref(db, '/orders/' + $page.params.uid + '/driver')).then(() => {
-						order.status = null;
-						update(ref(db, '/orders/' + $page.params.uid), order);
-						goto('/driver/orders');
-					});
+					order.driver = null;
+					order.status = null;
+					update(ref(db, '/orders/' + $page.params.uid), order);
+					goto('/driver/orders');
 				}}>Отменить заказ</button>
 		{/if}
 	</div>
