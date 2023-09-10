@@ -6,7 +6,7 @@
 	import { auth, db } from '$lib/scripts/firebase';
 	import { orderSelected, user } from '$lib/scripts/storage';
 	import { onAuthStateChanged } from 'firebase/auth';
-	import { onValue, ref, update } from 'firebase/database';
+	import { onValue, ref, remove, update } from 'firebase/database';
 	import { onMount } from 'svelte';
 
 	export let order = $orderSelected;
@@ -28,7 +28,7 @@
 			<button
 				class="btn btn-sm btn-danger text-light"
 				on:click|stopPropagation={async () => {
-					order.driver = $user.uid;
+					order.driver = null;
 					order.status = null;
 					update(ref(db, '/orders/' + $page.params.uid), order);
 					goto('/driver/orders');
