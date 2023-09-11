@@ -3,6 +3,8 @@
 	import Auth from '$lib/components/Auth.svelte';
 	import After from '$lib/components/others/breakepoints/After.svelte';
 	import Before from '$lib/components/others/breakepoints/Before.svelte';
+	import { auth } from '$lib/scripts/firebase';
+	import { signOut } from 'firebase/auth';
 
 	export let pageTitle = '';
 	$: routes = [
@@ -28,6 +30,14 @@
 									>{route.title}</button>
 							{/each}
 						</div>
+						<button
+							class="btn btn-light text-dark text-start rounded mx-2 p-2 float-end"
+							on:click={() => signOut(auth)}
+							title="Выход">
+							<div class="d-flex align-items-center gap-1">
+								<i class="fa-solid fa-door-open text-center" style="min-width:1.6em; font-size:1.1em" />
+							</div>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -60,6 +70,14 @@
 							</div>
 						</a>
 					{/each}
+				</div>
+				<div class="position-fixed bottom-0 mb-1" style="width: 11em;">
+					<button class="btn btn-light text-dark text-start w-100 rounded-0" on:click={() => signOut(auth)}>
+						<div class="d-flex align-items-center gap-1">
+							<i class="fa-solid fa-door-open text-center" style="min-width:1.6em; font-size:1.1em" />
+							Выход
+						</div>
+					</button>
 				</div>
 			</div>
 			<div class="flex-grow-1 d-flex flex-column gap-3">
