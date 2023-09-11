@@ -9,7 +9,7 @@
 		{ title: 'Заказы', url: '/admin/orders', pin: '', icon: 'fa-solid fa-clipboard-list' },
 		{ title: 'Водители', url: '/admin/drivers', pin: '', icon: 'fa-solid fa-users' },
 		{ title: 'Автомобили', url: '', pin: '12', icon: 'fa-solid fa-truck' },
-		{ title: 'Статистика', url: '', pin: '', icon: 'fa-solid fa-circle-info' },
+		{ title: 'Статистика', url: '/admin/statistics', pin: '', icon: 'fa-solid fa-circle-info' },
 	];
 </script>
 

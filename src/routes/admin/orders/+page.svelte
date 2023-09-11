@@ -194,7 +194,7 @@
 	</div>
 	{#each Object.entries(ordersFiltered()).filter(v => v[1].product) as [uid, order], i}
 		<Order i={iForOrders(i)} {uid} {order} _class="rounded bg-light shadow-sm">
-			{#if order.driver}
+			{#if order.driver && Object.keys(drivers).includes(order.driver)}
 				<div class="badge bg-dark">
 					{Object.entries(drivers).find(d => d[0] == order.driver)[1].name},
 					{Object.entries(drivers).find(d => d[0] == order.driver)[1].phone}
