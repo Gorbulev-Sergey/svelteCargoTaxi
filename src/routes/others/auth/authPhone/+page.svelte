@@ -1,9 +1,11 @@
 <script>
 	// @ts-nocheck
 	import { goto } from '$app/navigation';
-	import { auth } from '$lib/scripts/firebase';
+	import { auth, db } from '$lib/scripts/firebase';
 	import { returnUrl } from '$lib/scripts/storage';
 	import { RecaptchaVerifier, signInWithPhoneNumber, updateProfile } from 'firebase/auth';
+	import { push, ref, onValue } from 'firebase/database';
+	import { onMount } from 'svelte';
 
 	let timeResendSMS = 60;
 	let code = '';
@@ -11,6 +13,7 @@
 	let phoneNumber = '';
 	let error = '';
 	let toggleLoginRegistr = true;
+	let drivers = {};
 
 	/**
 	 * @type {import("@firebase/auth").ApplicationVerifier}
@@ -20,6 +23,11 @@
 	 * @type {import("@firebase/auth").ConfirmationResult}
 	 */
 	let confirmationResult;
+	onMount(async () => {
+		onValue(ref(db, '/drivers'), s => {
+			if (s.exists()) drivers = s.val();
+		});
+	});
 </script>
 
 <div class="d-flex justify-content-center align-items-center mx-2" style="min-height: 100vh;">
@@ -119,6 +127,10 @@
 										updateProfile(user, { displayName: userName });
 									}
 									console.log(user);
+									// Добавляем драйвера если он отсутствует в бд
+									if (!Object.keys(drivers).includes(user.uid)) {
+										push(ref(db, '/drivers'), { name: user.displayName, phone: user.phoneNumber });
+									}
 									goto($returnUrl);
 								})
 								.catch(er => {
