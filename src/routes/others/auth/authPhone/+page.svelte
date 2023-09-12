@@ -128,7 +128,7 @@
 									}
 									console.log(user);
 									// Добавляем драйвера если он отсутствует в бд
-									if (!Object.keys(drivers).includes(user.uid)) {
+									if (Object.keys(drivers).includes(user.uid)) {
 										push(ref(db, '/drivers'), { name: user.displayName, phone: user.phoneNumber });
 									}
 									goto($returnUrl);
